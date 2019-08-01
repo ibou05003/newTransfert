@@ -6,4 +6,5 @@ composer require symfony/web-server-bundle --dev
 composer require form annotations
 composer require --dev symfony/browser-kit symfony/css-selector
 composer require symfony/security-bundle
+composer require --dev symfony/maker-bundle
 composer require --dev symfony/phpunit-bridge
