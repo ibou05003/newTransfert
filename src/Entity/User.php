@@ -4,9 +4,10 @@ namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
-use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\Validator\Constraints as Assert;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Symfony\Component\HttpFoundation\File\File;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
@@ -46,13 +47,26 @@ class User implements UserInterface
     private $proprietaire;
 
     /**
-     * @Vich\UploadableField(mapping="user_image", fileNameProperty="imageName")
-     * 
-     * @var File
-     * @Assert\Image(
-     *     mimeTypes="images/jpeg"
-     * )
+     * @ORM\Column(type="string", length=255)
      */
+    private $compte;
+
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $nombreConnexion;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $status;
+    /**
+    * NOTE: This is not a mapped field of entity metadata, just a simple property.
+    * 
+    * @Vich\UploadableField(mapping="users", fileNameProperty="imageName")
+    * @Assert\File(maxSize="1024k", mimeTypes={"image/jpeg", "image/png"}, mimeTypesMessage="user.avatar_file.mime_type")
+    * @var File
+    */
     private $imageFile;
 
     /**
@@ -63,10 +77,16 @@ class User implements UserInterface
     private $imageName;
 
     /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $compte;
+    * @ORM\Column(type="datetime")
+    *
+    * @var \DateTime
+    */
+    private $updatedAt;
 
+    public function __construct()
+    {
+        $this->updatedAt=new \Datetime();
+    }
     public function getId(): ?int
     {
         return $this->id;
@@ -168,25 +188,46 @@ class User implements UserInterface
 
         return $this;
     }
-    
-    /**
-    * @ORM\Column(type="datetime")
-    *
-    * @var \DateTime
-    */
-    private $updatedAt;
+
+    public function getNombreConnexion(): ?int
+    {
+        return $this->nombreConnexion;
+    }
+
+    public function setNombreConnexion(int $nombreConnexion): self
+    {
+        $this->nombreConnexion = $nombreConnexion;
+
+        return $this;
+    }
+
+    public function getStatus(): ?string
+    {
+        return $this->status;
+    }
+
+    public function setStatus(string $status): self
+    {
+        $this->status = $status;
+
+        return $this;
+    }
 
     /**
-    * @param File|\Symfony\Component\HttpFoundation\File\UploadedFile $imageFile
+    * If manually uploading a file (i.e. not using Symfony Form) ensure an instance
+    * of 'UploadedFile' is injected into this setter to trigger the update. If this
+    * bundle's configuration parameter 'inject_on_load' is set to 'true' this setter
+    * must be able to accept an instance of 'File' as the bundle will inject one here
+    * during Doctrine hydration.
+    *
+    * @param null | File $imageFile
     */
     public function setImageFile(?File $imageFile = null): void
     {
         $this->imageFile = $imageFile;
 
-        if (null !== $imageFile) {
-            // It is required that at least one field changes if you are using doctrine
-            // otherwise the event listeners won't be called and the file is lost
-            $this->updatedAt = new \DateTimeImmutable();
+        if ($this->imageFile instanceof UploadedFile) {
+            $this->updatedAt = new \DateTime('now');
         }
     }
 
@@ -204,5 +245,29 @@ class User implements UserInterface
     {
         return $this->imageName;
     }
-    
+
+
+    /**
+     * Get the value of updatedAt
+     *
+     * @return  \DateTime
+     */ 
+    public function getUpdatedAt()
+    {
+        return $this->updatedAt;
+    }
+
+    /**
+     * Set the value of updatedAt
+     *
+     * @param  \DateTime  $updatedAt
+     *
+     * @return  self
+     */ 
+    public function setUpdatedAt(\DateTime $updatedAt)
+    {
+        $this->updatedAt = $updatedAt;
+
+        return $this;
+    }
 }
