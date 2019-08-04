@@ -66,7 +66,7 @@ class User implements UserInterface
     * NOTE: This is not a mapped field of entity metadata, just a simple property.
     * 
     * @Vich\UploadableField(mapping="users", fileNameProperty="imageName")
-    * @Assert\Image(mimeTypes={"image/jpeg", "image/png"}, mimeTypesMessage="ceci n est pas une image")
+    * @Assert\Image(mimeTypes={"image/jpeg", "image/png"}, mimeTypesMessage="veuillez selectionner une image")
     * @var File
     */
     private $imageFile;

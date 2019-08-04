@@ -15,13 +15,17 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 use FOS\RestBundle\Controller\AbstractFOSRestController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
+use App\Form\MotDePasseType;
+use App\Entity\MotDePasse;
 
 /**
- * @Route("/api")
+ * @Route("/api/users")
  */
 class SecurityController extends AbstractFOSRestController
 {
     private $status='Actif';
+    private $plain='plainPassword';
+    private $message='status';
     /**
     * @Route("/register", name="app_register")
     */
@@ -31,11 +35,9 @@ class SecurityController extends AbstractFOSRestController
         $form = $this->createForm(UserType::class, $user);
         $form->handleRequest($request);
         $data=json_decode($request->getContent(),true);
-        $user->setImageName("null");
+
         if(!$data){
             $data=$request->request->all(); 
-            $file=$request->files->all()['imageFile'];
-            $user->setImageFile($file);
         }
 
         $form->submit($data);
@@ -46,13 +48,22 @@ class SecurityController extends AbstractFOSRestController
 
             return new Response($errorsString);
         }
+        if(!$form->get($this->plain)->getData() || strlen($form->get($this->plain)->getData())<6){
+            if(!$form->get($this->plain)->getData()){
+                $msg='Veuillez renseigner le mot de passe';
+            }
+            else{
+                $msg='le mot de passe doit avoir au moins 6 caractères';
+            }
+            return $this->handleView($this->view([$this->message=>$msg],Response::HTTP_UNAUTHORIZED));
+        }
 
         if ($form->isSubmitted() && $form->isValid()) {
             // encode the plain password
             $user->setPassword(
                 $passwordEncoder->encodePassword(
                     $user,
-                    $form->get('plainPassword')->getData()
+                    $form->get($this->plain)->getData()
                 )
             );
             $user->setRoles(['ROLE_AdminWari']);
@@ -61,18 +72,22 @@ class SecurityController extends AbstractFOSRestController
             $user->setNombreConnexion(0);
             $user->setStatus($this->status);
 
+            $file=$request->files->all()['imageFile'];
+            if (! in_array($file->getMimeType(), array('image/jpeg','image/jpg','image/png'))){
+                return $this->handleView($this->view([$this->message=>'choisissez une image'],Response::HTTP_UNAUTHORIZED));
+            }
+            
+            $user->setImageFile($file);
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($user);
             $entityManager->flush();
 
-            return $this->handleView($this->view(['status'=>'ok'],Response::HTTP_CREATED));
+            return $this->handleView($this->view([$this->message=>'ok'],Response::HTTP_CREATED));
         }
-
-        return $this->handleView($this->view($form->getErrors()));
     }
 
     /**
-    * @Route("/users",name="users",methods={"GET"})
+    * @Route("/",name="users",methods={"GET"})
     */
     public function index(UserRepository $repo)
     {
@@ -80,7 +95,7 @@ class SecurityController extends AbstractFOSRestController
         return $this->handleView($this->view($users));
     }
     /**
-    * @Route("/user/status/{id}", name="status",methods={"PUT"})
+    * @Route("/status/{id}", name="status",methods={"PUT"})
     */
     public function status(User $user)
     {
@@ -92,29 +107,53 @@ class SecurityController extends AbstractFOSRestController
         $entityManager = $this->getDoctrine()->getManager();
         $entityManager->persist($user);
         $entityManager->flush();
-        return $this->handleView($this->view(['status'=>'ok'],Response::HTTP_CREATED));
+        return $this->handleView($this->view([$this->message=>'ok'],Response::HTTP_CREATED));
     }
     /**
-    * @Route("/user/password/{id}", name="password_change",methods={"PUT"})
+    * @Route("/password/{id}", name="password_change",methods={"PUT"})
     */
     public function initPassword(User $user,ValidatorInterface $validator,Request $request, UserPasswordEncoderInterface $passwordEncoder)
     {
-        $form = $this->createForm(UserType::class, $user);
+        $mdp= new MotDePasse();
+        $form = $this->createForm(MotDePasseType::class, $mdp);
         $form->handleRequest($request);
+    
         $data=json_decode($request->getContent(),true);
         $form->submit($data);
+        $errors = $validator->validate($mdp);
+
+        if (count($errors) > 0) {
+            $errorsString = (string) $errors;
+
+            return new Response($errorsString);
+        }
+        if($form->get($this->plain)->getData()!=$form->get($this->plain.'Confirm')->getData()){
+            return $this->handleView($this->view([$this->message=>'veuillez saisir les memes mots de passe'],Response::HTTP_UNAUTHORIZED));
+        }
         if ($form->isSubmitted() && $form->isValid()) {
+            
             // encode the plain password
             $user->setPassword(
                 $passwordEncoder->encodePassword(
                     $user,
-                    $form->get('plainPassword')->getData()
+                    $form->get($this->plain)->getData()
                 )
             );
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($user);
             $entityManager->flush();
-            return $this->handleView($this->view(['status'=>'ok'],Response::HTTP_CREATED));
+            return $this->handleView($this->view([$this->message=>'ok'],Response::HTTP_CREATED));
         }
+    }
+    /**
+    * @Route("/login", name="login", methods={"POST"})
+    */
+    public function login(Request $request)
+    {
+        $user = $this->getUser();
+        return $this->json([
+            'username' => $user->getUsername(),
+            'roles' => $user->getRoles()
+        ]);
     }
 }

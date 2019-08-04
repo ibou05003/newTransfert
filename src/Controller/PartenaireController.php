@@ -42,11 +42,13 @@ class PartenaireController extends AbstractFOSRestController
         $user->setImageName("null");
         if(!$data){
             $data=$request->request->all(); 
-            $file=$request->files->all()['imageFile'];
-            $user->setImageFile($file);
         }
 
         $form->submit($data);
+        $file=$request->files->all()['imageFile'];
+        if (! in_array($file->getMimeType(), array('image/jpeg','image/jpg','image/png'))){
+            return $this->handleView($this->view([$this->message=>'choisissez une image'],Response::HTTP_UNAUTHORIZED));
+        }
         $errors = $validator->validate($partenaire);
         if (count($errors) > 0) {
             $errorsString = (string) $errors;
@@ -72,6 +74,8 @@ class PartenaireController extends AbstractFOSRestController
                     $user,'passer'
                 )
             );
+            
+            $user->setImageFile($file);
             $user->setEmail($partenaire->getEmailPersonneRef());
             $user->setRoles(['ROLE_SuperAdminPartenaire']);
             $user->setCompte($compte->getNumeroCompte());
@@ -80,7 +84,8 @@ class PartenaireController extends AbstractFOSRestController
             $user->setNombreConnexion(0);
             $user->setStatus('Actif');
 
-            
+            $file=$request->files->all()['imageFile'];
+            $user->setImageFile($file);
             
             $entityManager->persist($user);
             $entityManager->persist($compte);
@@ -124,5 +129,6 @@ class PartenaireController extends AbstractFOSRestController
 
         return $this->handleView($this->view($form->getErrors()));
     }
+    
 
 }
