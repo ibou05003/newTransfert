@@ -10,12 +10,14 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use FOS\RestBundle\Controller\AbstractFOSRestController;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use App\Entity\Compte;
 use App\Entity\User;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 /**
 * @Route("/api/partenaire")
+* @Security("has_role('ROLE_AdminWari')")
 */
 class PartenaireController extends AbstractFOSRestController
 {

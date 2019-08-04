@@ -4,19 +4,17 @@ namespace App\Controller;
 
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
-use Doctrine\ORM\EntityManagerInterface;
 use App\Entity\User;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use App\Form\UserType;
 use Symfony\Component\HttpFoundation\Response;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use App\Repository\UserRepository;
-use Symfony\Component\HttpFoundation\File\UploadedFile;
 use FOS\RestBundle\Controller\AbstractFOSRestController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 use App\Form\MotDePasseType;
 use App\Entity\MotDePasse;
+use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 
 /**
  * @Route("/api/users")
@@ -28,6 +26,7 @@ class SecurityController extends AbstractFOSRestController
     private $message='status';
     /**
     * @Route("/register", name="app_register")
+    * @Security("has_role('ROLE_AdminWari') or has_role('ROLE_SuperAdminPartenaire')")
     */
     public function register(ValidatorInterface $validator,Request $request, UserPasswordEncoderInterface $passwordEncoder): Response
     {
@@ -66,9 +65,17 @@ class SecurityController extends AbstractFOSRestController
                     $form->get($this->plain)->getData()
                 )
             );
-            $user->setRoles(['ROLE_AdminWari']);
-            $user->setCompte('WARI');
-            $user->setProprietaire('WARI');
+            $connecte = $this->getUser();
+            if($connecte->getRoles()[0]=='ROLE_AdminWari'){
+                $user->setRoles(['ROLE_Caissier']);
+                $user->setCompte('WARI');
+                $user->setProprietaire('WARI');
+            }else{
+                $user->setRoles(['ROLE_USER']);
+                $user->setProprietaire($connecte->getProprietaire());
+                $user->setCompte($connecte->getCompte());
+            }
+            
             $user->setNombreConnexion(0);
             $user->setStatus($this->status);
 
@@ -88,6 +95,7 @@ class SecurityController extends AbstractFOSRestController
 
     /**
     * @Route("/",name="users",methods={"GET"})
+    * @Security("has_role('ROLE_AdminWari') or has_role('ROLE_SuperAdminPartenaire')")
     */
     public function index(UserRepository $repo)
     {
@@ -96,6 +104,7 @@ class SecurityController extends AbstractFOSRestController
     }
     /**
     * @Route("/status/{id}", name="status",methods={"PUT"})
+    * @Security("has_role('ROLE_AdminWari') or has_role('ROLE_SuperAdminPartenaire')")
     */
     public function status(User $user)
     {
@@ -111,6 +120,7 @@ class SecurityController extends AbstractFOSRestController
     }
     /**
     * @Route("/password/{id}", name="password_change",methods={"PUT"})
+    * @Security("has_role('ROLE_AdminWari') or has_role('ROLE_SuperAdminPartenaire')")
     */
     public function initPassword(User $user,ValidatorInterface $validator,Request $request, UserPasswordEncoderInterface $passwordEncoder)
     {
@@ -151,9 +161,18 @@ class SecurityController extends AbstractFOSRestController
     public function login(Request $request)
     {
         $user = $this->getUser();
-        return $this->json([
-            'username' => $user->getUsername(),
-            'roles' => $user->getRoles()
-        ]);
+        if($user->getStatus()==$this->status){
+            $token = $this->tokenStorage->getToken();
+            if ($token instanceof UsernamePasswordToken && $this->providerKey === $token->getProviderKey()) {
+                $this->tokenStorage->setToken(null);
+            }
+            return $this->json([
+                'username' => $user->getUsername(),
+                'roles' => $user->getRoles()
+            ]);
+        }
+        elseif($user->getStatus()=='Bloqué'){
+            return $this->handleView($this->view([$this->message=>'Utilisateur bloqué'],Response::HTTP_UNAUTHORIZED));
+        }
     }
 }

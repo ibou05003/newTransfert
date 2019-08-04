@@ -10,10 +10,12 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use FOS\RestBundle\Controller\FOSRestController;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 /**
  * @Route("/api/compte")
+ * @Security("has_role('ROLE_AdminWari')")
  */
 class CompteController extends FOSRestController
 {
