@@ -24,6 +24,7 @@ class CompteType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Compte::class,
+            'csrf_protection'=>false
         ]);
     }
 }

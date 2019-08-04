@@ -21,6 +21,7 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
  */
 class SecurityController extends AbstractFOSRestController
 {
+    private $status='Actif';
     /**
     * @Route("/register", name="app_register")
     */
@@ -41,11 +42,6 @@ class SecurityController extends AbstractFOSRestController
 
         $errors = $validator->validate($user);
         if (count($errors) > 0) {
-            /*
-            * Uses a __toString method on the $errors variable which is a
-            * ConstraintViolationList object. This gives us a nice string
-            * for debugging.
-            */
             $errorsString = (string) $errors;
 
             return new Response($errorsString);
@@ -63,7 +59,7 @@ class SecurityController extends AbstractFOSRestController
             $user->setCompte('WARI');
             $user->setProprietaire('WARI');
             $user->setNombreConnexion(0);
-            $user->setStatus('Actif');
+            $user->setStatus($this->status);
 
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($user);
@@ -88,14 +84,37 @@ class SecurityController extends AbstractFOSRestController
     */
     public function status(User $user)
     {
-        if($user->getStatus()=='Actif'){
+        if($user->getStatus()==$this->status){
             $user->setStatus('Bloqué');
         }else{
-            $user->setStatus('Actif');
+            $user->setStatus($this->status);
         }
         $entityManager = $this->getDoctrine()->getManager();
         $entityManager->persist($user);
         $entityManager->flush();
         return $this->handleView($this->view(['status'=>'ok'],Response::HTTP_CREATED));
+    }
+    /**
+    * @Route("/user/password/{id}", name="password_change",methods={"PUT"})
+    */
+    public function initPassword(User $user,ValidatorInterface $validator,Request $request, UserPasswordEncoderInterface $passwordEncoder)
+    {
+        $form = $this->createForm(UserType::class, $user);
+        $form->handleRequest($request);
+        $data=json_decode($request->getContent(),true);
+        $form->submit($data);
+        if ($form->isSubmitted() && $form->isValid()) {
+            // encode the plain password
+            $user->setPassword(
+                $passwordEncoder->encodePassword(
+                    $user,
+                    $form->get('plainPassword')->getData()
+                )
+            );
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($user);
+            $entityManager->flush();
+            return $this->handleView($this->view(['status'=>'ok'],Response::HTTP_CREATED));
+        }
     }
 }

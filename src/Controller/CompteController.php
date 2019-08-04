@@ -22,9 +22,8 @@ class CompteController extends FOSRestController
      */
     public function index(CompteRepository $compteRepository): Response
     {
-        return $this->render('compte/index.html.twig', [
-            'comptes' => $compteRepository->findAll(),
-        ]);
+        $comptes=$compteRepository->findAll();
+        return $this->handleView($this->view($comptes));
     }
 
     /**
@@ -44,7 +43,11 @@ class CompteController extends FOSRestController
 
             return new Response($errorsString);
         }
+        if(!$compte->getPartenaire()){
+            return $this->handleView($this->view(['erreur'=>'ce partenaire n\'existe pas'],Response::HTTP_UNAUTHORIZED));
+        }
         if ($form->isSubmitted() && $form->isValid()) {
+            
             $compte->setCreatedAt(new \Datetime());
             $compte->setSolde(0);
             $compte->setNumeroCompte("000".date("d").date("m").date("Y").date("H").date("i").date("s"));
@@ -55,7 +58,6 @@ class CompteController extends FOSRestController
             return $this->handleView($this->view(['status'=>'ok'],Response::HTTP_CREATED));
         }
 
-        return $this->handleView($this->view($form->getErrors()));
     }
 
     /**
@@ -63,42 +65,7 @@ class CompteController extends FOSRestController
      */
     public function show(Compte $compte): Response
     {
-        return $this->render('compte/show.html.twig', [
-            'compte' => $compte,
-        ]);
+        return $this->handleView($this->view($compte));
     }
 
-    /**
-     * @Route("/{id}/edit", name="compte_edit", methods={"GET","POST"})
-     */
-    public function edit(Request $request, Compte $compte): Response
-    {
-        $form = $this->createForm(CompteType::class, $compte);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $this->getDoctrine()->getManager()->flush();
-
-            return $this->redirectToRoute('compte_index');
-        }
-
-        return $this->render('compte/edit.html.twig', [
-            'compte' => $compte,
-            'form' => $form->createView(),
-        ]);
-    }
-
-    /**
-     * @Route("/{id}", name="compte_delete", methods={"DELETE"})
-     */
-    public function delete(Request $request, Compte $compte): Response
-    {
-        if ($this->isCsrfTokenValid('delete'.$compte->getId(), $request->request->get('_token'))) {
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->remove($compte);
-            $entityManager->flush();
-        }
-
-        return $this->redirectToRoute('compte_index');
-    }
 }

@@ -21,9 +21,8 @@ class VersementController extends FOSRestController
      */
     public function index(VersementRepository $versementRepository): Response
     {
-        return $this->render('versement/index.html.twig', [
-            'versements' => $versementRepository->findAll(),
-        ]);
+        $versements=$versementRepository->findAll();
+        return $this->handleView($this->view($versements));
     }
 
     /**
@@ -44,6 +43,9 @@ class VersementController extends FOSRestController
 
             return new Response($errorsString);
         }
+        if(!$versement->getCompte()){
+            return $this->handleView($this->view(['erreur'=>'ce compte n\'existe pas'],Response::HTTP_UNAUTHORIZED));
+        }
         if ($form->isSubmitted() && $form->isValid()) {
             $versement->setDateVersement(new \Datetime);
             $versement->setCaissier("1");
@@ -59,8 +61,6 @@ class VersementController extends FOSRestController
 
             return $this->handleView($this->view(['status'=>'ok'],Response::HTTP_CREATED));
         }
-
-        return $this->handleView($this->view($form->getErrors()));
     }
 
     /**
@@ -68,42 +68,6 @@ class VersementController extends FOSRestController
      */
     public function show(Versement $versement): Response
     {
-        return $this->render('versement/show.html.twig', [
-            'versement' => $versement,
-        ]);
-    }
-
-    /**
-     * @Route("/{id}/edit", name="versement_edit", methods={"GET","POST"})
-     */
-    public function edit(Request $request, Versement $versement): Response
-    {
-        $form = $this->createForm(VersementType::class, $versement);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $this->getDoctrine()->getManager()->flush();
-
-            return $this->redirectToRoute('versement_index');
-        }
-
-        return $this->render('versement/edit.html.twig', [
-            'versement' => $versement,
-            'form' => $form->createView(),
-        ]);
-    }
-
-    /**
-     * @Route("/{id}", name="versement_delete", methods={"DELETE"})
-     */
-    public function delete(Request $request, Versement $versement): Response
-    {
-        if ($this->isCsrfTokenValid('delete'.$versement->getId(), $request->request->get('_token'))) {
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->remove($versement);
-            $entityManager->flush();
-        }
-
-        return $this->redirectToRoute('versement_index');
+        return $this->handleView($this->view($versement));
     }
 }

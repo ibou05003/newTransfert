@@ -24,9 +24,8 @@ class PartenaireController extends AbstractFOSRestController
      */
     public function index(PartenaireRepository $partenaireRepository): Response
     {
-        return $this->render('partenaire/index.html.twig', [
-            'partenaires' => $partenaireRepository->findAll(),
-        ]);
+        $partenaires=$partenaireRepository->findAll();
+        return $this->handleView($this->view($partenaires));
     }
 
     /**
@@ -98,42 +97,32 @@ class PartenaireController extends AbstractFOSRestController
      */
     public function show(Partenaire $partenaire): Response
     {
-        return $this->render('partenaire/show.html.twig', [
-            'partenaire' => $partenaire,
-        ]);
+        return $this->handleView($this->view($partenaire));
     }
 
     /**
      * @Route("/{id}/edit", name="partenaire_edit", methods={"GET","POST"})
      */
-    public function edit(Request $request, Partenaire $partenaire): Response
+    public function edit(ValidatorInterface $validator,Request $request, Partenaire $partenaire): Response
     {
         $form = $this->createForm(PartenaireType::class, $partenaire);
         $form->handleRequest($request);
+        $data=json_decode($request->getContent(),true);
 
+        $form->submit($data);
+        $errors = $validator->validate($partenaire);
+        if (count($errors) > 0) {
+            $errorsString = (string) $errors;
+
+            return new Response($errorsString);
+        }
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
 
-            return $this->redirectToRoute('partenaire_index');
+            return $this->handleView($this->view(['status'=>'ok'],Response::HTTP_CREATED));
         }
 
-        return $this->render('partenaire/edit.html.twig', [
-            'partenaire' => $partenaire,
-            'form' => $form->createView(),
-        ]);
+        return $this->handleView($this->view($form->getErrors()));
     }
 
-    /**
-     * @Route("/{id}", name="partenaire_delete", methods={"DELETE"})
-     */
-    public function delete(Request $request, Partenaire $partenaire): Response
-    {
-        if ($this->isCsrfTokenValid('delete'.$partenaire->getId(), $request->request->get('_token'))) {
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->remove($partenaire);
-            $entityManager->flush();
-        }
-
-        return $this->redirectToRoute('partenaire_index');
-    }
 }
