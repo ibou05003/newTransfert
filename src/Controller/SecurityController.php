@@ -14,6 +14,7 @@ use App\Repository\UserRepository;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use FOS\RestBundle\Controller\AbstractFOSRestController;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 /**
  * @Route("/api")
@@ -23,16 +24,32 @@ class SecurityController extends AbstractFOSRestController
     /**
     * @Route("/register", name="app_register")
     */
-    public function register(Request $request, UserPasswordEncoderInterface $passwordEncoder): Response
+    public function register(ValidatorInterface $validator,Request $request, UserPasswordEncoderInterface $passwordEncoder): Response
     {
         $user = new User();
         $form = $this->createForm(UserType::class, $user);
         $form->handleRequest($request);
-        //$data=json_decode($request->getContent(),true);
-        $data=$request->request->all(); 
-        $file=$request->files->all()['imageFile'];
-        //var_dump($file);die();
+        $data=json_decode($request->getContent(),true);
+        $user->setImageName("null");
+        if(!$data){
+            $data=$request->request->all(); 
+            $file=$request->files->all()['imageFile'];
+            $user->setImageFile($file);
+        }
+
         $form->submit($data);
+
+        $errors = $validator->validate($user);
+        if (count($errors) > 0) {
+            /*
+            * Uses a __toString method on the $errors variable which is a
+            * ConstraintViolationList object. This gives us a nice string
+            * for debugging.
+            */
+            $errorsString = (string) $errors;
+
+            return new Response($errorsString);
+        }
 
         if ($form->isSubmitted() && $form->isValid()) {
             // encode the plain password
@@ -47,11 +64,6 @@ class SecurityController extends AbstractFOSRestController
             $user->setProprietaire('WARI');
             $user->setNombreConnexion(0);
             $user->setStatus('Actif');
-            
-            
-            
-            $user->setImageFile($file);
-            
 
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($user);
@@ -63,4 +75,27 @@ class SecurityController extends AbstractFOSRestController
         return $this->handleView($this->view($form->getErrors()));
     }
 
+    /**
+    * @Route("/users",name="users",methods={"GET"})
+    */
+    public function index(UserRepository $repo)
+    {
+        $users=$repo->findAll();
+        return $this->handleView($this->view($users));
+    }
+    /**
+    * @Route("/user/status/{id}", name="status",methods={"PUT"})
+    */
+    public function status(User $user)
+    {
+        if($user->getStatus()=='Actif'){
+            $user->setStatus('Bloqué');
+        }else{
+            $user->setStatus('Actif');
+        }
+        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager->persist($user);
+        $entityManager->flush();
+        return $this->handleView($this->view(['status'=>'ok'],Response::HTTP_CREATED));
+    }
 }

@@ -6,12 +6,14 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\File\File;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
  * @Vich\Uploadable
+ * @UniqueEntity(fields={"email"}, message="cette adresse est déjà utilisée")
  */
 class User implements UserInterface
 {
@@ -64,7 +66,7 @@ class User implements UserInterface
     * NOTE: This is not a mapped field of entity metadata, just a simple property.
     * 
     * @Vich\UploadableField(mapping="users", fileNameProperty="imageName")
-    * @Assert\File(maxSize="1024k", mimeTypes={"image/jpeg", "image/png"}, mimeTypesMessage="user.avatar_file.mime_type")
+    * @Assert\Image(mimeTypes={"image/jpeg", "image/png"}, mimeTypesMessage="ceci n est pas une image")
     * @var File
     */
     private $imageFile;
