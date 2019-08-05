@@ -1,0 +1,39 @@
+<?php
+
+namespace Symfony\Component\VarExporter\Internal;
+
+return $getExpiry ? PHP_INT_MAX : Hydrator::hydrate(
+    $o = [
+        clone (($p = &Registry::$prototypes)['Doctrine\\ORM\\Mapping\\Column'] ?? Registry::p('Doctrine\\ORM\\Mapping\\Column')),
+        clone ($p['Symfony\\Component\\Validator\\Constraints\\Email'] ?? Registry::p('Symfony\\Component\\Validator\\Constraints\\Email')),
+        clone ($p['Symfony\\Component\\Validator\\Constraints\\Regex'] ?? Registry::p('Symfony\\Component\\Validator\\Constraints\\Regex')),
+    ],
+    null,
+    [
+        'stdClass' => [
+            'length' => [
+                255,
+            ],
+            'message' => [
+                1 => 'ceci\'{{ value }}\' n\\\'est pas une adresse email.',
+            ],
+            'groups' => [
+                1 => [
+                    'Default',
+                ],
+                [
+                    'Default',
+                ],
+            ],
+            'pattern' => [
+                2 => '/^[^\\W][a-zA-Z0-9_]+(\\.[a-zA-Z0-9_]+)*\\@[a-zA-Z0-9_]+(\\.[a-zA-Z0-9_]+)*\\.[a-zA-Z]{2,4}$/',
+            ],
+        ],
+    ],
+    [
+        $o[0],
+        $o[1],
+        $o[2],
+    ],
+    []
+);

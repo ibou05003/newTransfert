@@ -1,0 +1,83 @@
+<?php
+
+namespace Symfony\Component\VarExporter\Internal;
+
+return $getExpiry ? PHP_INT_MAX : Hydrator::hydrate(
+    $o = [
+        clone (($p = &Registry::$prototypes)['Doctrine\\ORM\\Mapping\\Entity'] ?? Registry::p('Doctrine\\ORM\\Mapping\\Entity')),
+        clone ($p['Vich\\UploaderBundle\\Mapping\\Annotation\\Uploadable'] ?? Registry::p('Vich\\UploaderBundle\\Mapping\\Annotation\\Uploadable')),
+        clone ($p['Symfony\\Bridge\\Doctrine\\Validator\\Constraints\\UniqueEntity'] ?? Registry::p('Symfony\\Bridge\\Doctrine\\Validator\\Constraints\\UniqueEntity')),
+        clone $p['Symfony\\Bridge\\Doctrine\\Validator\\Constraints\\UniqueEntity'],
+        clone $p['Symfony\\Bridge\\Doctrine\\Validator\\Constraints\\UniqueEntity'],
+        clone $p['Symfony\\Bridge\\Doctrine\\Validator\\Constraints\\UniqueEntity'],
+        clone $p['Symfony\\Bridge\\Doctrine\\Validator\\Constraints\\UniqueEntity'],
+        clone $p['Symfony\\Bridge\\Doctrine\\Validator\\Constraints\\UniqueEntity'],
+    ],
+    null,
+    [
+        'stdClass' => [
+            'repositoryClass' => [
+                'App\\Repository\\PartenaireRepository',
+            ],
+            'message' => [
+                2 => 'cette raison Sociale est déjà utilisée',
+                'ce NINEA est déjà utilisé',
+                'le téléphone du siege doit etre unique',
+                'le téléphone du siege doit etre unique',
+                'cette adresse est déjà utilisée',
+                'cette adresse est déjà utilisée',
+            ],
+            'fields' => [
+                2 => [
+                    'raisonSociale',
+                ],
+                [
+                    'ninea',
+                ],
+                [
+                    'telephoneSiege',
+                ],
+                [
+                    'telephoneRef',
+                ],
+                [
+                    'emailSiege',
+                ],
+                [
+                    'emailPersonneRef',
+                ],
+            ],
+            'groups' => [
+                2 => [
+                    'Default',
+                ],
+                [
+                    'Default',
+                ],
+                [
+                    'Default',
+                ],
+                [
+                    'Default',
+                ],
+                [
+                    'Default',
+                ],
+                [
+                    'Default',
+                ],
+            ],
+        ],
+    ],
+    [
+        $o[0],
+        $o[1],
+        $o[2],
+        $o[3],
+        $o[4],
+        $o[5],
+        $o[6],
+        $o[7],
+    ],
+    []
+);
