@@ -158,21 +158,5 @@ class SecurityController extends AbstractFOSRestController
     /**
     * @Route("/login", name="login", methods={"POST"})
     */
-    public function login(Request $request)
-    {
-        $user = $this->getUser();
-        if($user->getStatus()==$this->status){
-            $token = $this->tokenStorage->getToken();
-            if ($token instanceof UsernamePasswordToken && $this->providerKey === $token->getProviderKey()) {
-                $this->tokenStorage->setToken(null);
-            }
-            return $this->json([
-                'username' => $user->getUsername(),
-                'roles' => $user->getRoles()
-            ]);
-        }
-        elseif($user->getStatus()=='Bloqué'){
-            return $this->handleView($this->view([$this->message=>'Utilisateur bloqué'],Response::HTTP_UNAUTHORIZED));
-        }
-    }
+    public function login(){}
 }
