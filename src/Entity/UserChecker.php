@@ -1,25 +1,20 @@
 <?php
 namespace App\Entity;
+
 use Exception;
-use App\Entity\User as User ;
-use Symfony\Component\Security\Core\User\UserInterface ;
-use Symfony\Component\Security\Core\User\UserCheckerInterface ;
+use Symfony\Component\Security\Core\User\UserCheckerInterface;
+use Symfony\Component\Security\Core\User\UserInterface;
+
 class UserChecker implements UserCheckerInterface
 {
-    public function checkPreAuth ( UserInterface $user )
+    public function checkPreAuth(UserInterface $user)
     {
-        if ( ! $user instanceof User ) {
-            return ;
-        }
-        if ( $user->getStatus()!='Actif') {
+        if ($user->getStatus() != 'Actif') {
             throw new Exception('Cet utilisateur est bloqué, veuillez contacter l\'administrateur');
-        }
-        
-    }
-    public function checkPostAuth ( UserInterface $user )
-    {
-        if ( ! $user instanceof User ) {
-            return ;
+        } elseif ($user->getPartenaire()!= NULL && $user->getPartenaire()->getStatus() != 'Actif') {
+            throw new Exception('Ce partenaire est bloqué, veuillez contacter le prestataire');
         }
     }
+    public function checkPostAuth(UserInterface $user)
+    {}
 }

@@ -10,11 +10,44 @@ use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Vich\UploaderBundle\Form\Type\VichImageType;
+use Symfony\Component\Security\Core\Security;
+use App\Repository\UserRepository;
+use Symfony\Component\Form\FormEvents;
+use Symfony\Component\Form\FormEvent;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 
 class UserType extends AbstractType
 {
+    private $security;
+
+    public function __construct(Security $security)
+    {
+        $this->security = $security;
+    }
+ 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        // grab the user, do a quick sanity check that one exists
+        $user = $this->security->getUser();
+        if($user->getRoles()[0]=='ROLE_SuperAdminWari'){
+            $builder->add('roles',ChoiceType::class, [
+                'choices'  => [
+                    'Administrateur' => ['ROLE_AdminWari'],
+                    'Caissier' => ['ROLE_Caissier']
+                ],
+                'expanded'  => false, // liste déroulante
+                'multiple'  => true,
+            ]);
+        }else{
+            $builder->add('roles',ChoiceType::class, [
+                'choices'  => [
+                    'Administrateur' => ['ROLE_Admin'],
+                    'Utilisateur' => ['ROLE_USER']
+                ],
+                'expanded'  => false, // liste déroulante
+                'multiple'  => true,
+            ]);
+        }
         $builder
             ->add('email')
             ->add('plainPassword', PasswordType::class, [
@@ -31,7 +64,14 @@ class UserType extends AbstractType
                 ],
             ])
             ->add('imageFile',VichImageType::class)
+            ->add('nomComplet')
+            ->add('cni')
+            ->add('telephone')
+            ->add('adresse')
         ;
+        
+       
+        
     }
 
     public function configureOptions(OptionsResolver $resolver)

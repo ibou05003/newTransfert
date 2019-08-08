@@ -15,9 +15,6 @@ class VersementType extends AbstractType
     {
         $builder
             ->add('montant')
-            ->add('compte',EntityType::class,[
-                'class'=>Compte::class
-            ])
         ;
     }
 

@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -14,6 +16,7 @@ use Symfony\Component\HttpFoundation\File\File;
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
  * @Vich\Uploadable
  * @UniqueEntity(fields={"email"}, message="cette adresse est déjà utilisée")
+ * @UniqueEntity(fields={"cni"}, message="le CNI doit etre unique")
  */
 class User implements UserInterface
 {
@@ -43,15 +46,6 @@ class User implements UserInterface
      */
     private $password;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $proprietaire;
-
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $compte;
 
     /**
      * @ORM\Column(type="integer")
@@ -85,9 +79,45 @@ class User implements UserInterface
     */
     private $updatedAt;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Partenaire", inversedBy="users")
+     */
+    private $partenaire;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Versement", mappedBy="user")
+     */
+    private $versements;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Compte", inversedBy="users")
+     */
+    private $compte;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $nomComplet;
+
+    /**
+     * @ORM\Column(type="bigint")
+     */
+    private $cni;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $adresse;
+
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $telephone;
+
     public function __construct()
     {
         $this->updatedAt=new \Datetime();
+        $this->versements = new ArrayCollection();
     }
     public function getId(): ?int
     {
@@ -166,30 +196,7 @@ class User implements UserInterface
         // If you store any temporary, sensitive data on the user, clear it here
         // $this->plainPassword = null;
     }
-
-    public function getProprietaire(): ?string
-    {
-        return $this->proprietaire;
-    }
-
-    public function setProprietaire(string $proprietaire): self
-    {
-        $this->proprietaire = $proprietaire;
-
-        return $this;
-    }
-
-    public function getCompte(): ?string
-    {
-        return $this->compte;
-    }
-
-    public function setCompte(string $compte): self
-    {
-        $this->compte = $compte;
-
-        return $this;
-    }
+    
 
     public function getNombreConnexion(): ?int
     {
@@ -269,6 +276,117 @@ class User implements UserInterface
     public function setUpdatedAt(\DateTime $updatedAt)
     {
         $this->updatedAt = $updatedAt;
+
+        return $this;
+    }
+
+    public function getPartenaire(): ?Partenaire
+    {
+        return $this->partenaire;
+    }
+
+    public function setPartenaire(?Partenaire $partenaire): self
+    {
+        $this->partenaire = $partenaire;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Versement[]
+     */
+    public function getVersements(): Collection
+    {
+        return $this->versements;
+    }
+
+    public function addVersement(Versement $versement): self
+    {
+        if (!$this->versements->contains($versement)) {
+            $this->versements[] = $versement;
+            $versement->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeVersement(Versement $versement): self
+    {
+        if ($this->versements->contains($versement)) {
+            $this->versements->removeElement($versement);
+            // set the owning side to null (unless already changed)
+            if ($versement->getUser() === $this) {
+                $versement->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * Get the value of compte
+     */ 
+    public function getCompte()
+    {
+        return $this->compte;
+    }
+
+    /**
+     * Set the value of compte
+     *
+     * @return  self
+     */ 
+    public function setCompte($compte)
+    {
+        $this->compte = $compte;
+
+        return $this;
+    }
+
+    public function getNomComplet(): ?string
+    {
+        return $this->nomComplet;
+    }
+
+    public function setNomComplet(string $nomComplet): self
+    {
+        $this->nomComplet = $nomComplet;
+
+        return $this;
+    }
+
+    public function getCni(): ?int
+    {
+        return $this->cni;
+    }
+
+    public function setCni(int $cni): self
+    {
+        $this->cni = $cni;
+
+        return $this;
+    }
+
+    public function getAdresse(): ?string
+    {
+        return $this->adresse;
+    }
+
+    public function setAdresse(string $adresse): self
+    {
+        $this->adresse = $adresse;
+
+        return $this;
+    }
+
+    public function getTelephone(): ?int
+    {
+        return $this->telephone;
+    }
+
+    public function setTelephone(int $telephone): self
+    {
+        $this->telephone = $telephone;
 
         return $this;
     }

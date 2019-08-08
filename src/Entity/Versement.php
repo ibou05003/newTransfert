@@ -32,16 +32,18 @@ class Versement
      */
     private $dateVersement;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $caissier;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Compte", inversedBy="versements")
      * @ORM\JoinColumn(nullable=false)
      */
     private $compte;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="versements")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $user;
 
     public function getId(): ?int
     {
@@ -72,18 +74,6 @@ class Versement
         return $this;
     }
 
-    public function getCaissier(): ?string
-    {
-        return $this->caissier;
-    }
-
-    public function setCaissier(string $caissier): self
-    {
-        $this->caissier = $caissier;
-
-        return $this;
-    }
-
     public function getCompte(): ?Compte
     {
         return $this->compte;
@@ -92,6 +82,18 @@ class Versement
     public function setCompte(?Compte $compte): self
     {
         $this->compte = $compte;
+
+        return $this;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): self
+    {
+        $this->user = $user;
 
         return $this;
     }

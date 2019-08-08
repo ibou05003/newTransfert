@@ -26,11 +26,12 @@ class SecurityController extends AbstractFOSRestController
     private $message='status';
     /**
     * @Route("/register", name="app_register")
-    * @Security("has_role('ROLE_AdminWari') or has_role('ROLE_SuperAdminPartenaire')")
+    * @Security("has_role('ROLE_AdminWari') or has_role('ROLE_SuperAdminPartenaire') or has_role('ROLE_SuperAdminWari')")
     */
     public function register(ValidatorInterface $validator,Request $request, UserPasswordEncoderInterface $passwordEncoder): Response
     {
         $user = new User();
+        $connecte = $this->getUser();
         $form = $this->createForm(UserType::class, $user);
         $form->handleRequest($request);
         $data=json_decode($request->getContent(),true);
@@ -57,7 +58,7 @@ class SecurityController extends AbstractFOSRestController
             return $this->handleView($this->view([$this->message=>$msg],Response::HTTP_UNAUTHORIZED));
         }
 
-        if ($form->isSubmitted() && $form->isValid()) {
+       // if ($form->isSubmitted() && $form->isValid()) {
             // encode the plain password
             $user->setPassword(
                 $passwordEncoder->encodePassword(
@@ -65,17 +66,11 @@ class SecurityController extends AbstractFOSRestController
                     $form->get($this->plain)->getData()
                 )
             );
-            $connecte = $this->getUser();
-            if($connecte->getRoles()[0]=='ROLE_AdminWari'){
-                $user->setRoles(['ROLE_Caissier']);
-                $user->setCompte('WARI');
-                $user->setProprietaire('WARI');
-            }else{
-                $user->setRoles(['ROLE_USER']);
-                $user->setProprietaire($connecte->getProprietaire());
+            
+            if($connecte->getRoles()[0]=='ROLE_SuperAdminPartenaire'){
+                $user->setPartenaire($connecte->getPartenaire());
                 $user->setCompte($connecte->getCompte());
             }
-            
             $user->setNombreConnexion(0);
             $user->setStatus($this->status);
 
@@ -90,7 +85,7 @@ class SecurityController extends AbstractFOSRestController
             $entityManager->flush();
 
             return $this->handleView($this->view([$this->message=>'ok'],Response::HTTP_CREATED));
-        }
+       // }
     }
 
     /**

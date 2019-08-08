@@ -7,6 +7,7 @@ return $getExpiry ? PHP_INT_MAX : Hydrator::hydrate(
         clone (($p = &Registry::$prototypes)['Doctrine\\ORM\\Mapping\\Entity'] ?? Registry::p('Doctrine\\ORM\\Mapping\\Entity')),
         clone ($p['Vich\\UploaderBundle\\Mapping\\Annotation\\Uploadable'] ?? Registry::p('Vich\\UploaderBundle\\Mapping\\Annotation\\Uploadable')),
         clone ($p['Symfony\\Bridge\\Doctrine\\Validator\\Constraints\\UniqueEntity'] ?? Registry::p('Symfony\\Bridge\\Doctrine\\Validator\\Constraints\\UniqueEntity')),
+        clone $p['Symfony\\Bridge\\Doctrine\\Validator\\Constraints\\UniqueEntity'],
     ],
     null,
     [
@@ -16,14 +17,21 @@ return $getExpiry ? PHP_INT_MAX : Hydrator::hydrate(
             ],
             'message' => [
                 2 => 'cette adresse est déjà utilisée',
+                'le CNI doit etre unique',
             ],
             'fields' => [
                 2 => [
                     'email',
                 ],
+                [
+                    'cni',
+                ],
             ],
             'groups' => [
                 2 => [
+                    'Default',
+                ],
+                [
                     'Default',
                 ],
             ],
@@ -33,6 +41,7 @@ return $getExpiry ? PHP_INT_MAX : Hydrator::hydrate(
         $o[0],
         $o[1],
         $o[2],
+        $o[3],
     ],
     []
 );

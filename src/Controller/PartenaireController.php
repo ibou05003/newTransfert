@@ -13,6 +13,8 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use App\Entity\Compte;
 use App\Entity\User;
+use Dompdf\Dompdf;
+use Dompdf\Options;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 /**
@@ -59,7 +61,7 @@ class PartenaireController extends AbstractFOSRestController
         }
 
         if ($form->isSubmitted() && $form->isValid()) {
-
+            $partenaire->setStatus('Actif');
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($partenaire);
             $entityManager->flush();
@@ -69,7 +71,8 @@ class PartenaireController extends AbstractFOSRestController
             $compte->setCreatedAt(new \Datetime());
             $compte->setSolde(0);
             $compte->setNumeroCompte("000".date("d").date("m").date("Y").date("H").date("i").date("s"));
-            
+            $entityManager->persist($compte);
+            $entityManager->flush();
             //creation user
             $user->setPassword(
                 $passwordEncoder->encodePassword(
@@ -80,17 +83,18 @@ class PartenaireController extends AbstractFOSRestController
             $user->setImageFile($file);
             $user->setEmail($partenaire->getEmailPersonneRef());
             $user->setRoles(['ROLE_SuperAdminPartenaire']);
-            $user->setCompte($compte->getNumeroCompte());
-            $proprietaire=$partenaire->getId()."";
-            $user->setProprietaire($proprietaire);
+            $user->setCompte($compte);
             $user->setNombreConnexion(0);
             $user->setStatus('Actif');
-
+            $user->setNomComplet($partenaire->getNomCompletPersonneRef());
+            $user->setAdresse($partenaire->getAdressePersonneRef());
+            $user->setCni($partenaire->getCniPersonneRef());
+            $user->setTelephone($partenaire->getTelephoneRef());
+            $user->setPartenaire($partenaire);
             $file=$request->files->all()['imageFile'];
             $user->setImageFile($file);
             
             $entityManager->persist($user);
-            $entityManager->persist($compte);
             $entityManager->flush();
 
             return $this->handleView($this->view(['status'=>'ok'],Response::HTTP_CREATED));
@@ -131,6 +135,5 @@ class PartenaireController extends AbstractFOSRestController
 
         return $this->handleView($this->view($form->getErrors()));
     }
-    
 
 }

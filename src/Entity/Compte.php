@@ -46,9 +46,15 @@ class Compte
      */
     private $versements;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\User", mappedBy="compte")
+     */
+    private $users;
+
     public function __construct()
     {
         $this->versements = new ArrayCollection();
+        $this->users = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -129,6 +135,37 @@ class Compte
             // set the owning side to null (unless already changed)
             if ($versement->getCompte() === $this) {
                 $versement->setCompte(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|User[]
+     */
+    public function getUsers(): Collection
+    {
+        return $this->users;
+    }
+
+    public function addUser(User $user): self
+    {
+        if (!$this->users->contains($user)) {
+            $this->users[] = $user;
+            $user->setCompte($this);
+        }
+
+        return $this;
+    }
+
+    public function removeUser(User $user): self
+    {
+        if ($this->users->contains($user)) {
+            $this->users->removeElement($user);
+            // set the owning side to null (unless already changed)
+            if ($user->getCompte() === $this) {
+                $user->setCompte(null);
             }
         }
 

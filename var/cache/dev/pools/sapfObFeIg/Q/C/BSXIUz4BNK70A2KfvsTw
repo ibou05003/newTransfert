@@ -12,6 +12,7 @@ return $getExpiry ? PHP_INT_MAX : Hydrator::hydrate(
         clone $p['Symfony\\Bridge\\Doctrine\\Validator\\Constraints\\UniqueEntity'],
         clone $p['Symfony\\Bridge\\Doctrine\\Validator\\Constraints\\UniqueEntity'],
         clone $p['Symfony\\Bridge\\Doctrine\\Validator\\Constraints\\UniqueEntity'],
+        clone $p['Symfony\\Bridge\\Doctrine\\Validator\\Constraints\\UniqueEntity'],
     ],
     null,
     [
@@ -26,6 +27,7 @@ return $getExpiry ? PHP_INT_MAX : Hydrator::hydrate(
                 'le téléphone du siege doit etre unique',
                 'cette adresse est déjà utilisée',
                 'cette adresse est déjà utilisée',
+                'le CNI doit etre unique',
             ],
             'fields' => [
                 2 => [
@@ -46,9 +48,15 @@ return $getExpiry ? PHP_INT_MAX : Hydrator::hydrate(
                 [
                     'emailPersonneRef',
                 ],
+                [
+                    'cniPersonneRef',
+                ],
             ],
             'groups' => [
                 2 => [
+                    'Default',
+                ],
+                [
                     'Default',
                 ],
                 [
@@ -78,6 +86,7 @@ return $getExpiry ? PHP_INT_MAX : Hydrator::hydrate(
         $o[5],
         $o[6],
         $o[7],
+        $o[8],
     ],
     []
 );

@@ -7,6 +7,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Vich\UploaderBundle\Form\Type\VichImageType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 
 class PartenaireType extends AbstractType
 {
@@ -22,6 +23,8 @@ class PartenaireType extends AbstractType
             ->add('emailPersonneRef')
             ->add('emailSiege')
             ->add('telephoneRef')
+            ->add('cniPersonneRef')
+            ->add('adressePersonneRef')
             ->add('imageFile',VichImageType::class)
         ;
     }

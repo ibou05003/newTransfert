@@ -19,6 +19,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @UniqueEntity(fields={"telephoneRef"}, message="le téléphone du siege doit etre unique")
  * @UniqueEntity(fields={"emailSiege"}, message="cette adresse est déjà utilisée")
  * @UniqueEntity(fields={"emailPersonneRef"}, message="cette adresse est déjà utilisée")
+ * @UniqueEntity(fields={"cniPersonneRef"}, message="le CNI doit etre unique")
  */
 class Partenaire
 {
@@ -105,9 +106,30 @@ class Partenaire
     */
     private $updatedAt;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\User", mappedBy="partenaire")
+     */
+    private $users;
+
+    /**
+     * @ORM\Column(type="bigint")
+     */
+    private $cniPersonneRef;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $adressePersonneRef;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $status;
+
     public function __construct()
     {
         $this->comptes = new ArrayCollection();
+        $this->users = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -320,6 +342,73 @@ class Partenaire
     public function setUpdatedAt(\DateTime $updatedAt)
     {
         $this->updatedAt = $updatedAt;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|User[]
+     */
+    public function getUsers(): Collection
+    {
+        return $this->users;
+    }
+
+    public function addUser(User $user): self
+    {
+        if (!$this->users->contains($user)) {
+            $this->users[] = $user;
+            $user->setPartenaire($this);
+        }
+
+        return $this;
+    }
+
+    public function removeUser(User $user): self
+    {
+        if ($this->users->contains($user)) {
+            $this->users->removeElement($user);
+            // set the owning side to null (unless already changed)
+            if ($user->getPartenaire() === $this) {
+                $user->setPartenaire(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getCniPersonneRef(): ?int
+    {
+        return $this->cniPersonneRef;
+    }
+
+    public function setCniPersonneRef(int $cniPersonneRef): self
+    {
+        $this->cniPersonneRef = $cniPersonneRef;
+
+        return $this;
+    }
+
+    public function getAdressePersonneRef(): ?string
+    {
+        return $this->adressePersonneRef;
+    }
+
+    public function setAdressePersonneRef(string $adressePersonneRef): self
+    {
+        $this->adressePersonneRef = $adressePersonneRef;
+
+        return $this;
+    }
+
+    public function getStatus(): ?string
+    {
+        return $this->status;
+    }
+
+    public function setStatus(string $status): self
+    {
+        $this->status = $status;
 
         return $this;
     }
