@@ -19,7 +19,7 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 /**
 * @Route("/api/partenaire")
-* @Security("has_role('ROLE_AdminWari')")
+* @Security("has_role('ROLE_AdminWari') or has_role('ROLE_SuperAdminWari')")
 */
 class PartenaireController extends AbstractFOSRestController
 {

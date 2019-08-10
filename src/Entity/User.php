@@ -128,11 +128,28 @@ class User implements UserInterface
      */
     private $transactions;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="users")
+     */
+    private $user;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\User", mappedBy="user")
+     */
+    private $users;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Transaction", mappedBy="userRet")
+     */
+    private $transactionss;
+
     public function __construct()
     {
         $this->updatedAt=new \Datetime();
         $this->versements = new ArrayCollection();
         $this->transactions = new ArrayCollection();
+        $this->users = new ArrayCollection();
+        $this->transactionss = new ArrayCollection();
     }
     public function getId(): ?int
     {
@@ -443,6 +460,80 @@ class User implements UserInterface
             // set the owning side to null (unless already changed)
             if ($transaction->getUser() === $this) {
                 $transaction->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getUser(): ?self
+    {
+        return $this->user;
+    }
+
+    public function setUser(?self $user): self
+    {
+        $this->user = $user;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|self[]
+     */
+    public function getUsers(): Collection
+    {
+        return $this->users;
+    }
+
+    public function addUser(self $user): self
+    {
+        if (!$this->users->contains($user)) {
+            $this->users[] = $user;
+            $user->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeUser(self $user): self
+    {
+        if ($this->users->contains($user)) {
+            $this->users->removeElement($user);
+            // set the owning side to null (unless already changed)
+            if ($user->getUser() === $this) {
+                $user->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Transaction[]
+     */
+    public function getTransactionss(): Collection
+    {
+        return $this->transactionss;
+    }
+
+    public function addTransactionss(Transaction $transactionss): self
+    {
+        if (!$this->transactionss->contains($transactionss)) {
+            $this->transactionss[] = $transactionss;
+            $transactionss->setUserRet($this);
+        }
+
+        return $this;
+    }
+
+    public function removeTransactionss(Transaction $transactionss): self
+    {
+        if ($this->transactionss->contains($transactionss)) {
+            $this->transactionss->removeElement($transactionss);
+            // set the owning side to null (unless already changed)
+            if ($transactionss->getUserRet() === $this) {
+                $transactionss->setUserRet(null);
             }
         }
 

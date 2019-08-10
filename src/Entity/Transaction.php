@@ -3,11 +3,14 @@
 namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ApiResource()
  * @ORM\Entity(repositoryClass="App\Repository\TransactionRepository")
+ * @UniqueEntity(fields={"code"}, message="le code doit etre unique")
  */
 class Transaction
 {
@@ -40,11 +43,17 @@ class Transaction
 
     /**
      * @ORM\Column(type="integer")
+     * @Assert\Range(
+     *      min = 1,
+     *      max = 3000000,
+     *      minMessage = "You must be at least {{ limit }}cm tall to enter",
+     *      maxMessage = "You cannot be taller than {{ limit }}cm to enter"
+     * )
      */
     private $montant;
 
     /**
-     * @ORM\Column(type="bigint")
+     * @ORM\Column(type="string", length=255)
      */
     private $adresseEnv;
 
@@ -131,6 +140,21 @@ class Transaction
      */
     private $frais;
 
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $typePieceBenef;
+
+    /**
+     * @ORM\Column(type="bigint")
+     */
+    private $cniEnv;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="transactionss")
+     */
+    private $userRet;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -196,12 +220,12 @@ class Transaction
         return $this;
     }
 
-    public function getAdresseEnv(): ?int
+    public function getAdresseEnv(): ?string
     {
         return $this->adresseEnv;
     }
 
-    public function setAdresseEnv(int $adresseEnv): self
+    public function setAdresseEnv(string $adresseEnv): self
     {
         $this->adresseEnv = $adresseEnv;
 
@@ -398,6 +422,42 @@ class Transaction
     public function setFrais(int $frais): self
     {
         $this->frais = $frais;
+
+        return $this;
+    }
+
+    public function getTypePieceBenef(): ?string
+    {
+        return $this->typePieceBenef;
+    }
+
+    public function setTypePieceBenef(?string $typePieceBenef): self
+    {
+        $this->typePieceBenef = $typePieceBenef;
+
+        return $this;
+    }
+
+    public function getCniEnv(): ?int
+    {
+        return $this->cniEnv;
+    }
+
+    public function setCniEnv(int $cniEnv): self
+    {
+        $this->cniEnv = $cniEnv;
+
+        return $this;
+    }
+
+    public function getUserRet(): ?User
+    {
+        return $this->userRet;
+    }
+
+    public function setUserRet(?User $userRet): self
+    {
+        $this->userRet = $userRet;
 
         return $this;
     }

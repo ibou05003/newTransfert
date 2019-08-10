@@ -64,10 +64,10 @@ class Compte extends \App\Entity\Compte implements \Doctrine\ORM\Proxy\Proxy
     public function __sleep()
     {
         if ($this->__isInitialized__) {
-            return ['__isInitialized__', '' . "\0" . 'App\\Entity\\Compte' . "\0" . 'id', '' . "\0" . 'App\\Entity\\Compte' . "\0" . 'numeroCompte', '' . "\0" . 'App\\Entity\\Compte' . "\0" . 'solde', '' . "\0" . 'App\\Entity\\Compte' . "\0" . 'createdAt', '' . "\0" . 'App\\Entity\\Compte' . "\0" . 'partenaire', '' . "\0" . 'App\\Entity\\Compte' . "\0" . 'versements', '' . "\0" . 'App\\Entity\\Compte' . "\0" . 'users'];
+            return ['__isInitialized__', '' . "\0" . 'App\\Entity\\Compte' . "\0" . 'id', '' . "\0" . 'App\\Entity\\Compte' . "\0" . 'numeroCompte', '' . "\0" . 'App\\Entity\\Compte' . "\0" . 'solde', '' . "\0" . 'App\\Entity\\Compte' . "\0" . 'createdAt', '' . "\0" . 'App\\Entity\\Compte' . "\0" . 'partenaire', '' . "\0" . 'App\\Entity\\Compte' . "\0" . 'versements', '' . "\0" . 'App\\Entity\\Compte' . "\0" . 'users', '' . "\0" . 'App\\Entity\\Compte' . "\0" . 'transactions'];
         }
 
-        return ['__isInitialized__', '' . "\0" . 'App\\Entity\\Compte' . "\0" . 'id', '' . "\0" . 'App\\Entity\\Compte' . "\0" . 'numeroCompte', '' . "\0" . 'App\\Entity\\Compte' . "\0" . 'solde', '' . "\0" . 'App\\Entity\\Compte' . "\0" . 'createdAt', '' . "\0" . 'App\\Entity\\Compte' . "\0" . 'partenaire', '' . "\0" . 'App\\Entity\\Compte' . "\0" . 'versements', '' . "\0" . 'App\\Entity\\Compte' . "\0" . 'users'];
+        return ['__isInitialized__', '' . "\0" . 'App\\Entity\\Compte' . "\0" . 'id', '' . "\0" . 'App\\Entity\\Compte' . "\0" . 'numeroCompte', '' . "\0" . 'App\\Entity\\Compte' . "\0" . 'solde', '' . "\0" . 'App\\Entity\\Compte' . "\0" . 'createdAt', '' . "\0" . 'App\\Entity\\Compte' . "\0" . 'partenaire', '' . "\0" . 'App\\Entity\\Compte' . "\0" . 'versements', '' . "\0" . 'App\\Entity\\Compte' . "\0" . 'users', '' . "\0" . 'App\\Entity\\Compte' . "\0" . 'transactions'];
     }
 
     /**
@@ -340,6 +340,39 @@ class Compte extends \App\Entity\Compte implements \Doctrine\ORM\Proxy\Proxy
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'removeUser', [$user]);
 
         return parent::removeUser($user);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getTransactions(): \Doctrine\Common\Collections\Collection
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getTransactions', []);
+
+        return parent::getTransactions();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function addTransaction(\App\Entity\Transaction $transaction): \App\Entity\Compte
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'addTransaction', [$transaction]);
+
+        return parent::addTransaction($transaction);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function removeTransaction(\App\Entity\Transaction $transaction): \App\Entity\Compte
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'removeTransaction', [$transaction]);
+
+        return parent::removeTransaction($transaction);
     }
 
 }

@@ -76,7 +76,7 @@ class __TwigTemplate_200d2d92d2d9fa42236b72664fee2d2b1d36dfd2997392ad199ec96567a
         float:right;
     }
     p{
-        font-size: 16px;
+        font-size: 12px;
     }
 </style>
 ";
@@ -102,7 +102,7 @@ class __TwigTemplate_200d2d92d2d9fa42236b72664fee2d2b1d36dfd2997392ad199ec96567a
         </div>
         <div class=\"row\">
             <div class=\"col-12 text-center\">
-                <h1>Contrat de prestation de service</h1>
+                <h2>Contrat de prestation de service</h2>
             </div>
         </div>
 
@@ -134,7 +134,7 @@ class __TwigTemplate_200d2d92d2d9fa42236b72664fee2d2b1d36dfd2997392ad199ec96567a
             Ci-après désigné « le Partenaire » D’autre part,
         </p>
         <p>Il a été arrêté et convenu ce qui suit :</p>
-        <h2>Article un - Nature de la mission</h2>
+        <h3>Article un - Nature de la mission</h3>
         <p>
             Le stratégie du client s’inscrit dans une dynamique d’offres de services du quotidien, simples, adaptées, rapides et sûres, et destinées au grand public, dans sa diversité de profils socio-économiques ou de lieux d’habitation.
         </p>
@@ -145,7 +145,7 @@ class __TwigTemplate_200d2d92d2d9fa42236b72664fee2d2b1d36dfd2997392ad199ec96567a
             Dans le cadre de cette mission, le Prestataire s'engage à mettre ses collaborateurs à la disposition du Client si cela est nécessaire pour la bonne exécution de la mission. Cependant, lesdits salariés resteront sous l'autorité et sous la responsabilité
                     du Prestataire pendant leur intervention chez le Client.
         </p>
-        <h2>Article deux - Prix et modalités de paiement</h2>
+        <h3>Article deux - Prix et modalités de paiement</h3>
         <p>
             Les commissions sont répartis comme suit :
             <br>
@@ -170,7 +170,7 @@ class __TwigTemplate_200d2d92d2d9fa42236b72664fee2d2b1d36dfd2997392ad199ec96567a
                 </li>
             </ul>
         </p>
-        <h2>Article trois - Obligations du Prestataire</h2>
+        <h3>Article trois - Obligations du Prestataire</h3>
         <p>
             Il est rappelé que le Prestataire est tenu à une obligation de moyens. Il doit donc exécuter sa mission conformément aux règles en vigueur dans sa profession et en se conformant à toutes les données acquises dans son domaine de compétence.
         </p>
@@ -180,11 +180,11 @@ class __TwigTemplate_200d2d92d2d9fa42236b72664fee2d2b1d36dfd2997392ad199ec96567a
         Il s'engage à se conformer au règlement intérieur et aux consignes de sécurité applicables chez le Client. Enfin, il s’engage à observer la confidentialité la plus totale en ce qui concerne le contenu de la mission et toutes les informations ainsi que
             tous les documents que le Client lui aura communiqués.
     </p>
-    <h2>Article quatre - Obligations du Client</h2>
+    <h3>Article quatre - Obligations du Client</h3>
     <p>
         Afin de permettre au Prestataire de réaliser la mission dans de bonnes conditions, le Client s’engage à lui remettre tous les documents nécessaires dans les meilleurs délais.
     </p>
-    <h2>Article cinq – Responsabilité</h2>
+    <h3>Article cinq – Responsabilité</h3>
     <p>
         La responsabilité du Prestataire ne pourra être mise en cause qu'en cas de manquement à son obligation de moyens. En outre, le Client ne pourra pas l'invoquer dans les cas suivants :
         <ul>
@@ -193,15 +193,15 @@ class __TwigTemplate_200d2d92d2d9fa42236b72664fee2d2b1d36dfd2997392ad199ec96567a
             <li>en cas de force majeure ou d'autres causes indépendantes de la volonté du Prestataire.</li>
         </ul>
     </p>
-    <h2>Article six - Droit applicable et juridiction compétente</h2>
+    <h3>Article six - Droit applicable et juridiction compétente</h3>
     <p>
         Le présent contrat est assujetti au droit français. Tout litige qui résulterait de son exécution sera soumis aux tribunaux dont dépend le siège social du Prestataire.
     </p>
     <p>
-        Fait le ";
+        Fait le <strong> ";
         // line 108
         echo twig_escape_filter($this->env, twig_date_format_filter($this->env, "now", "m/d/Y"), "html", null, true);
-        echo " en deux exemplaires à <strong>Dakar</strong>
+        echo " </strong> en deux exemplaires à <strong>Dakar</strong>
     </p>
     <div class=\"row\">
         <div class=\"col-6\">
@@ -253,7 +253,7 @@ class __TwigTemplate_200d2d92d2d9fa42236b72664fee2d2b1d36dfd2997392ad199ec96567a
         float:right;
     }
     p{
-        font-size: 16px;
+        font-size: 12px;
     }
 </style>
 {% endblock %}
@@ -268,7 +268,7 @@ class __TwigTemplate_200d2d92d2d9fa42236b72664fee2d2b1d36dfd2997392ad199ec96567a
         </div>
         <div class=\"row\">
             <div class=\"col-12 text-center\">
-                <h1>Contrat de prestation de service</h1>
+                <h2>Contrat de prestation de service</h2>
             </div>
         </div>
 
@@ -288,7 +288,7 @@ class __TwigTemplate_200d2d92d2d9fa42236b72664fee2d2b1d36dfd2997392ad199ec96567a
             Ci-après désigné « le Partenaire » D’autre part,
         </p>
         <p>Il a été arrêté et convenu ce qui suit :</p>
-        <h2>Article un - Nature de la mission</h2>
+        <h3>Article un - Nature de la mission</h3>
         <p>
             Le stratégie du client s’inscrit dans une dynamique d’offres de services du quotidien, simples, adaptées, rapides et sûres, et destinées au grand public, dans sa diversité de profils socio-économiques ou de lieux d’habitation.
         </p>
@@ -299,7 +299,7 @@ class __TwigTemplate_200d2d92d2d9fa42236b72664fee2d2b1d36dfd2997392ad199ec96567a
             Dans le cadre de cette mission, le Prestataire s'engage à mettre ses collaborateurs à la disposition du Client si cela est nécessaire pour la bonne exécution de la mission. Cependant, lesdits salariés resteront sous l'autorité et sous la responsabilité
                     du Prestataire pendant leur intervention chez le Client.
         </p>
-        <h2>Article deux - Prix et modalités de paiement</h2>
+        <h3>Article deux - Prix et modalités de paiement</h3>
         <p>
             Les commissions sont répartis comme suit :
             <br>
@@ -324,7 +324,7 @@ class __TwigTemplate_200d2d92d2d9fa42236b72664fee2d2b1d36dfd2997392ad199ec96567a
                 </li>
             </ul>
         </p>
-        <h2>Article trois - Obligations du Prestataire</h2>
+        <h3>Article trois - Obligations du Prestataire</h3>
         <p>
             Il est rappelé que le Prestataire est tenu à une obligation de moyens. Il doit donc exécuter sa mission conformément aux règles en vigueur dans sa profession et en se conformant à toutes les données acquises dans son domaine de compétence.
         </p>
@@ -334,11 +334,11 @@ class __TwigTemplate_200d2d92d2d9fa42236b72664fee2d2b1d36dfd2997392ad199ec96567a
         Il s'engage à se conformer au règlement intérieur et aux consignes de sécurité applicables chez le Client. Enfin, il s’engage à observer la confidentialité la plus totale en ce qui concerne le contenu de la mission et toutes les informations ainsi que
             tous les documents que le Client lui aura communiqués.
     </p>
-    <h2>Article quatre - Obligations du Client</h2>
+    <h3>Article quatre - Obligations du Client</h3>
     <p>
         Afin de permettre au Prestataire de réaliser la mission dans de bonnes conditions, le Client s’engage à lui remettre tous les documents nécessaires dans les meilleurs délais.
     </p>
-    <h2>Article cinq – Responsabilité</h2>
+    <h3>Article cinq – Responsabilité</h3>
     <p>
         La responsabilité du Prestataire ne pourra être mise en cause qu'en cas de manquement à son obligation de moyens. En outre, le Client ne pourra pas l'invoquer dans les cas suivants :
         <ul>
@@ -347,12 +347,12 @@ class __TwigTemplate_200d2d92d2d9fa42236b72664fee2d2b1d36dfd2997392ad199ec96567a
             <li>en cas de force majeure ou d'autres causes indépendantes de la volonté du Prestataire.</li>
         </ul>
     </p>
-    <h2>Article six - Droit applicable et juridiction compétente</h2>
+    <h3>Article six - Droit applicable et juridiction compétente</h3>
     <p>
         Le présent contrat est assujetti au droit français. Tout litige qui résulterait de son exécution sera soumis aux tribunaux dont dépend le siège social du Prestataire.
     </p>
     <p>
-        Fait le {{ \"now\"|date(\"m/d/Y\") }} en deux exemplaires à <strong>Dakar</strong>
+        Fait le <strong> {{ \"now\"|date(\"m/d/Y\") }} </strong> en deux exemplaires à <strong>Dakar</strong>
     </p>
     <div class=\"row\">
         <div class=\"col-6\">
