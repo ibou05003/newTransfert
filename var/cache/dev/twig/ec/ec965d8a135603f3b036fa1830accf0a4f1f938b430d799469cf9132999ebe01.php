@@ -24,10 +24,17 @@ class __TwigTemplate_200d2d92d2d9fa42236b72664fee2d2b1d36dfd2997392ad199ec96567a
 
         $this->source = $this->getSourceContext();
 
-        $this->parent = false;
-
         $this->blocks = [
+            'title' => [$this, 'block_title'],
+            'stylesheets' => [$this, 'block_stylesheets'],
+            'body' => [$this, 'block_body'],
         ];
+    }
+
+    protected function doGetParent(array $context)
+    {
+        // line 1
+        return "base.html.twig";
     }
 
     protected function doDisplay(array $context, array $blocks = [])
@@ -36,76 +43,142 @@ class __TwigTemplate_200d2d92d2d9fa42236b72664fee2d2b1d36dfd2997392ad199ec96567a
         $__internal_319393461309892924ff6e74d6d6e64287df64b63545b994e100d4ab223aed02 = $this->extensions["Symfony\\Bridge\\Twig\\Extension\\ProfilerExtension"];
         $__internal_319393461309892924ff6e74d6d6e64287df64b63545b994e100d4ab223aed02->enter($__internal_319393461309892924ff6e74d6d6e64287df64b63545b994e100d4ab223aed02_prof = new \Twig\Profiler\Profile($this->getTemplateName(), "template", "partenaire/contrat.html.twig"));
 
-        // line 1
-        echo "<div class=\"container\">
-    <div class=\"row\">
-        <div class=\"col-12\">
-            <img src=\"logo.png\" class=\"rounded float-right\" alt=\"logo\">
-        </div>
-    </div>
-    <div class=\"row\">
-        <div class=\"col-12 text-center\">
-            <h1>Contrat de prestation de service</h1>
-        </div>
-    </div>
+        $this->parent = $this->loadTemplate("base.html.twig", "partenaire/contrat.html.twig", 1);
+        $this->parent->display($context, array_merge($this->blocks, $blocks));
+        
+        $__internal_319393461309892924ff6e74d6d6e64287df64b63545b994e100d4ab223aed02->leave($__internal_319393461309892924ff6e74d6d6e64287df64b63545b994e100d4ab223aed02_prof);
 
-    <p>Entre les soussignés :</p>
-    <p>
-        [Raison sociale du prestataire, forme juridique, montant de son capital social, adresse de son siège social, numéro d’immatriculation au RCS et ville où se trouve le greffe qui tient le RCS où il est immatriculé] Représenté par [prénom et nom du représentant
-        du prestataire, nature de sa fonction et date à laquelle il a été habilité à signer pour le compte de la société qu’il représente, prénom, nom et fonction de la personne qui l’a habilité]
-    </p>
-    <p>
-        Ci-après désigné « le Prestataire » D’une part,
-    </p>
-    <p>Et :</p>
-    <p>
-        [Raison sociale du client, forme juridique, montant de son capital social, adresse de son siège social, numéro d’immatriculation au RCS et ville où se trouve le greffe qui tient le RCS où il est immatriculé] Représenté par [prénom et nom du représentant
-        du client, nature de sa fonction et date à laquelle il a été habilité à signer pour le compte de la société qu’il représente, prénom, nom et fonction de la personne qui l’a habilité]
-    </p>
-    <p>
-        Ci-après désigné « le Client » D’autre part,
-    </p>
-    <p>Il a été arrêté et convenu ce qui suit :</p>
-    <h2>Article un - Nature de la mission</h2>
-    <p>
-        Le stratégie du client s’inscrit dans une dynamique d’offres de services du quotidien, simples, adaptées, rapides et sûres, et destinées au grand public, dans sa diversité de profils socio-économiques ou de lieux d’habitation. </p>
-    <p>
-        Le cas échéant :
-    </p>
-    <p>
-        Dans le cadre de cette mission, le Prestataire s'engage à mettre ses collaborateurs à la disposition du Client si cela est nécessaire pour la bonne exécution de la mission. Cependant, lesdits salariés resteront sous l'autorité et sous la responsabilité
-        du Prestataire pendant leur intervention chez le Client.
-    </p>
-    <h2>Article deux - Prix et modalités de paiement</h2>
-    <p>
-        Les commissions sont répartis comme suit : <br> Pour chaque transaction : <br>
-        <ul>
-            <li>
-                L’État prend les 30%
-            </li>
-            <li>
-                Le système WARI : 40%
-            </li>
-        </ul>
-        Pour le client les 30% sont répartis comme suit : <br>
-        <ul>
-            <li>
-                retrait : 20%
-            </li>
-            <li>
-                envoi : 10%
-            </li>
-        </ul>
-    </p>
-    <h2>Article trois - Obligations du Prestataire</h2>
-    <p>
-        Il est rappelé que le Prestataire est tenu à une obligation de moyens. Il doit donc exécuter sa mission conformément aux règles en vigueur dans sa profession et en se conformant à toutes les données acquises dans son domaine de compétence.
-    </p>
-    <p>
-        Il reconnaît que le Client lui a donné une information complète sur ses besoins et sur les impératifs à respecter.
-    </p>
-    Il s'engage à se conformer au règlement intérieur et aux consignes de sécurité applicables chez le Client. Enfin, il s’engage à observer la confidentialité la plus totale en ce qui concerne le contenu de la mission et toutes les informations ainsi que
-    tous les documents que le Client lui aura communiqués.
+    }
+
+    // line 2
+    public function block_title($context, array $blocks = [])
+    {
+        $macros = $this->macros;
+        $__internal_319393461309892924ff6e74d6d6e64287df64b63545b994e100d4ab223aed02 = $this->extensions["Symfony\\Bridge\\Twig\\Extension\\ProfilerExtension"];
+        $__internal_319393461309892924ff6e74d6d6e64287df64b63545b994e100d4ab223aed02->enter($__internal_319393461309892924ff6e74d6d6e64287df64b63545b994e100d4ab223aed02_prof = new \Twig\Profiler\Profile($this->getTemplateName(), "block", "title"));
+
+        echo "Contrat de Prestation";
+        
+        $__internal_319393461309892924ff6e74d6d6e64287df64b63545b994e100d4ab223aed02->leave($__internal_319393461309892924ff6e74d6d6e64287df64b63545b994e100d4ab223aed02_prof);
+
+    }
+
+    // line 3
+    public function block_stylesheets($context, array $blocks = [])
+    {
+        $macros = $this->macros;
+        $__internal_319393461309892924ff6e74d6d6e64287df64b63545b994e100d4ab223aed02 = $this->extensions["Symfony\\Bridge\\Twig\\Extension\\ProfilerExtension"];
+        $__internal_319393461309892924ff6e74d6d6e64287df64b63545b994e100d4ab223aed02->enter($__internal_319393461309892924ff6e74d6d6e64287df64b63545b994e100d4ab223aed02_prof = new \Twig\Profiler\Profile($this->getTemplateName(), "block", "stylesheets"));
+
+        // line 4
+        echo "<style>
+    .droit{
+        float:right;
+    }
+    p{
+        font-size: 16px;
+    }
+</style>
+";
+        
+        $__internal_319393461309892924ff6e74d6d6e64287df64b63545b994e100d4ab223aed02->leave($__internal_319393461309892924ff6e74d6d6e64287df64b63545b994e100d4ab223aed02_prof);
+
+    }
+
+    // line 14
+    public function block_body($context, array $blocks = [])
+    {
+        $macros = $this->macros;
+        $__internal_319393461309892924ff6e74d6d6e64287df64b63545b994e100d4ab223aed02 = $this->extensions["Symfony\\Bridge\\Twig\\Extension\\ProfilerExtension"];
+        $__internal_319393461309892924ff6e74d6d6e64287df64b63545b994e100d4ab223aed02->enter($__internal_319393461309892924ff6e74d6d6e64287df64b63545b994e100d4ab223aed02_prof = new \Twig\Profiler\Profile($this->getTemplateName(), "block", "body"));
+
+        // line 15
+        echo "
+    <div class=\"container\">
+        <div class=\"row\">
+            <div class=\"offset-10 col-2 image\">
+                <img alt=\"logo\" class=\"rounded float-right\" width=\"100px\" height=\"100px\" src=\"images/logo.png\">
+            </div>
+        </div>
+        <div class=\"row\">
+            <div class=\"col-12 text-center\">
+                <h1>Contrat de prestation de service</h1>
+            </div>
+        </div>
+
+        <p>Entre les soussignés :</p>
+        <p>
+            Raison Sociale <strong> WARI Transfert </strong>, à l'adresse <strong>Dakar Central Park Ex 4c</strong>, NINEA <strong>165748956</strong> <br> Représenté par <strong>Kabirou MBOW</strong>, <strong>PDG de WARI</strong>
+        </p>
+        <p>
+            Ci-après désigné « le Prestataire » D’une part,
+        </p>
+        <p>Et :</p>
+        <p>
+            Raison sociale <strong> ";
+        // line 37
+        echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->source, (isset($context["partenaire"]) || array_key_exists("partenaire", $context) ? $context["partenaire"] : (function () { throw new RuntimeError('Variable "partenaire" does not exist.', 37, $this->source); })()), "raisonSociale", [], "any", false, false, false, 37), "html", null, true);
+        echo " </strong>, à l'adresse <strong> ";
+        echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->source, (isset($context["partenaire"]) || array_key_exists("partenaire", $context) ? $context["partenaire"] : (function () { throw new RuntimeError('Variable "partenaire" does not exist.', 37, $this->source); })()), "adresseSociale", [], "any", false, false, false, 37), "html", null, true);
+        echo " </strong>, NINEA <strong> ";
+        echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->source, (isset($context["partenaire"]) || array_key_exists("partenaire", $context) ? $context["partenaire"] : (function () { throw new RuntimeError('Variable "partenaire" does not exist.', 37, $this->source); })()), "ninea", [], "any", false, false, false, 37), "html", null, true);
+        echo " </strong> <br> Représenté par <strong> ";
+        echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->source, (isset($context["partenaire"]) || array_key_exists("partenaire", $context) ? $context["partenaire"] : (function () { throw new RuntimeError('Variable "partenaire" does not exist.', 37, $this->source); })()), "nomCompletPersonneRef", [], "any", false, false, false, 37), "html", null, true);
+        echo " </strong>
+            , CNI <strong>";
+        // line 38
+        echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->source, (isset($context["partenaire"]) || array_key_exists("partenaire", $context) ? $context["partenaire"] : (function () { throw new RuntimeError('Variable "partenaire" does not exist.', 38, $this->source); })()), "cniPersonneRef", [], "any", false, false, false, 38), "html", null, true);
+        echo " </strong>
+        </p>
+        <p>
+            Ci-après désigné « le Partenaire » D’autre part,
+        </p>
+        <p>Il a été arrêté et convenu ce qui suit :</p>
+        <h2>Article un - Nature de la mission</h2>
+        <p>
+            Le stratégie du client s’inscrit dans une dynamique d’offres de services du quotidien, simples, adaptées, rapides et sûres, et destinées au grand public, dans sa diversité de profils socio-économiques ou de lieux d’habitation.
+        </p>
+        <p>
+            Le cas échéant :
+        </p>
+        <p>
+            Dans le cadre de cette mission, le Prestataire s'engage à mettre ses collaborateurs à la disposition du Client si cela est nécessaire pour la bonne exécution de la mission. Cependant, lesdits salariés resteront sous l'autorité et sous la responsabilité
+                    du Prestataire pendant leur intervention chez le Client.
+        </p>
+        <h2>Article deux - Prix et modalités de paiement</h2>
+        <p>
+            Les commissions sont répartis comme suit :
+            <br>
+            Pour chaque transaction :
+            <br>
+            <ul>
+                <li>
+                    L’État prend les 30%
+                </li>
+                <li>
+                    Le système WARI : 40%
+                </li>
+            </ul>
+            Pour le client les 30% sont répartis comme suit :
+            <br>
+            <ul>
+                <li>
+                    retrait : 20%
+                </li>
+                <li>
+                    envoi : 10%
+                </li>
+            </ul>
+        </p>
+        <h2>Article trois - Obligations du Prestataire</h2>
+        <p>
+            Il est rappelé que le Prestataire est tenu à une obligation de moyens. Il doit donc exécuter sa mission conformément aux règles en vigueur dans sa profession et en se conformant à toutes les données acquises dans son domaine de compétence.
+        </p>
+        <p>
+            Il reconnaît que le Client lui a donné une information complète sur ses besoins et sur les impératifs à respecter.
+        </p>
+        Il s'engage à se conformer au règlement intérieur et aux consignes de sécurité applicables chez le Client. Enfin, il s’engage à observer la confidentialité la plus totale en ce qui concerne le contenu de la mission et toutes les informations ainsi que
+            tous les documents que le Client lui aura communiqués.
     </p>
     <h2>Article quatre - Obligations du Client</h2>
     <p>
@@ -115,7 +188,8 @@ class __TwigTemplate_200d2d92d2d9fa42236b72664fee2d2b1d36dfd2997392ad199ec96567a
     <p>
         La responsabilité du Prestataire ne pourra être mise en cause qu'en cas de manquement à son obligation de moyens. En outre, le Client ne pourra pas l'invoquer dans les cas suivants :
         <ul>
-            <li>s'il a omis de remettre au Prestataire un document ou une information nécessaire pour la mission, </li>
+            <li>s'il a omis de remettre au Prestataire un document ou une information nécessaire pour la mission,
+            </li>
             <li>en cas de force majeure ou d'autres causes indépendantes de la volonté du Prestataire.</li>
         </ul>
     </p>
@@ -124,14 +198,28 @@ class __TwigTemplate_200d2d92d2d9fa42236b72664fee2d2b1d36dfd2997392ad199ec96567a
         Le présent contrat est assujetti au droit français. Tout litige qui résulterait de son exécution sera soumis aux tribunaux dont dépend le siège social du Prestataire.
     </p>
     <p>
-        Fait le [date] en deux exemplaires à [ville]
+        Fait le ";
+        // line 108
+        echo twig_escape_filter($this->env, twig_date_format_filter($this->env, "now", "m/d/Y"), "html", null, true);
+        echo " en deux exemplaires à <strong>Dakar</strong>
     </p>
     <div class=\"row\">
         <div class=\"col-6\">
-            Le Prestataire <br> [nom du signataire] <br> [signature]
+            Le Prestataire
+            <br>
+            <strong>Kabirou MBOW</strong>
+            <br>
+            [signature]
         </div>
-        <div class=\"col-6\">
-            Le Client <br> [nom du signataire] <br> [signature]
+        <div class=\"col-6 droit\">
+            Le Partenaire
+            <br>
+            <strong>";
+        // line 121
+        echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->source, (isset($context["partenaire"]) || array_key_exists("partenaire", $context) ? $context["partenaire"] : (function () { throw new RuntimeError('Variable "partenaire" does not exist.', 121, $this->source); })()), "nomCompletPersonneRef", [], "any", false, false, false, 121), "html", null, true);
+        echo "</strong>
+            <br>
+            [signature]
         </div>
     </div>
 </div>";
@@ -145,82 +233,106 @@ class __TwigTemplate_200d2d92d2d9fa42236b72664fee2d2b1d36dfd2997392ad199ec96567a
         return "partenaire/contrat.html.twig";
     }
 
+    public function isTraitable()
+    {
+        return false;
+    }
+
     public function getDebugInfo()
     {
-        return array (  40 => 1,);
+        return array (  219 => 121,  203 => 108,  130 => 38,  120 => 37,  96 => 15,  89 => 14,  74 => 4,  67 => 3,  54 => 2,  37 => 1,);
     }
 
     public function getSourceContext()
     {
-        return new Source("<div class=\"container\">
-    <div class=\"row\">
-        <div class=\"col-12\">
-            <img src=\"logo.png\" class=\"rounded float-right\" alt=\"logo\">
-        </div>
-    </div>
-    <div class=\"row\">
-        <div class=\"col-12 text-center\">
-            <h1>Contrat de prestation de service</h1>
-        </div>
-    </div>
+        return new Source("{% extends \"base.html.twig\" %}
+{% block title %}Contrat de Prestation{% endblock %}
+{% block stylesheets %}
+<style>
+    .droit{
+        float:right;
+    }
+    p{
+        font-size: 16px;
+    }
+</style>
+{% endblock %}
 
-    <p>Entre les soussignés :</p>
-    <p>
-        [Raison sociale du prestataire, forme juridique, montant de son capital social, adresse de son siège social, numéro d’immatriculation au RCS et ville où se trouve le greffe qui tient le RCS où il est immatriculé] Représenté par [prénom et nom du représentant
-        du prestataire, nature de sa fonction et date à laquelle il a été habilité à signer pour le compte de la société qu’il représente, prénom, nom et fonction de la personne qui l’a habilité]
-    </p>
-    <p>
-        Ci-après désigné « le Prestataire » D’une part,
-    </p>
-    <p>Et :</p>
-    <p>
-        [Raison sociale du client, forme juridique, montant de son capital social, adresse de son siège social, numéro d’immatriculation au RCS et ville où se trouve le greffe qui tient le RCS où il est immatriculé] Représenté par [prénom et nom du représentant
-        du client, nature de sa fonction et date à laquelle il a été habilité à signer pour le compte de la société qu’il représente, prénom, nom et fonction de la personne qui l’a habilité]
-    </p>
-    <p>
-        Ci-après désigné « le Client » D’autre part,
-    </p>
-    <p>Il a été arrêté et convenu ce qui suit :</p>
-    <h2>Article un - Nature de la mission</h2>
-    <p>
-        Le stratégie du client s’inscrit dans une dynamique d’offres de services du quotidien, simples, adaptées, rapides et sûres, et destinées au grand public, dans sa diversité de profils socio-économiques ou de lieux d’habitation. </p>
-    <p>
-        Le cas échéant :
-    </p>
-    <p>
-        Dans le cadre de cette mission, le Prestataire s'engage à mettre ses collaborateurs à la disposition du Client si cela est nécessaire pour la bonne exécution de la mission. Cependant, lesdits salariés resteront sous l'autorité et sous la responsabilité
-        du Prestataire pendant leur intervention chez le Client.
-    </p>
-    <h2>Article deux - Prix et modalités de paiement</h2>
-    <p>
-        Les commissions sont répartis comme suit : <br> Pour chaque transaction : <br>
-        <ul>
-            <li>
-                L’État prend les 30%
-            </li>
-            <li>
-                Le système WARI : 40%
-            </li>
-        </ul>
-        Pour le client les 30% sont répartis comme suit : <br>
-        <ul>
-            <li>
-                retrait : 20%
-            </li>
-            <li>
-                envoi : 10%
-            </li>
-        </ul>
-    </p>
-    <h2>Article trois - Obligations du Prestataire</h2>
-    <p>
-        Il est rappelé que le Prestataire est tenu à une obligation de moyens. Il doit donc exécuter sa mission conformément aux règles en vigueur dans sa profession et en se conformant à toutes les données acquises dans son domaine de compétence.
-    </p>
-    <p>
-        Il reconnaît que le Client lui a donné une information complète sur ses besoins et sur les impératifs à respecter.
-    </p>
-    Il s'engage à se conformer au règlement intérieur et aux consignes de sécurité applicables chez le Client. Enfin, il s’engage à observer la confidentialité la plus totale en ce qui concerne le contenu de la mission et toutes les informations ainsi que
-    tous les documents que le Client lui aura communiqués.
+{% block body %}
+
+    <div class=\"container\">
+        <div class=\"row\">
+            <div class=\"offset-10 col-2 image\">
+                <img alt=\"logo\" class=\"rounded float-right\" width=\"100px\" height=\"100px\" src=\"images/logo.png\">
+            </div>
+        </div>
+        <div class=\"row\">
+            <div class=\"col-12 text-center\">
+                <h1>Contrat de prestation de service</h1>
+            </div>
+        </div>
+
+        <p>Entre les soussignés :</p>
+        <p>
+            Raison Sociale <strong> WARI Transfert </strong>, à l'adresse <strong>Dakar Central Park Ex 4c</strong>, NINEA <strong>165748956</strong> <br> Représenté par <strong>Kabirou MBOW</strong>, <strong>PDG de WARI</strong>
+        </p>
+        <p>
+            Ci-après désigné « le Prestataire » D’une part,
+        </p>
+        <p>Et :</p>
+        <p>
+            Raison sociale <strong> {{ partenaire.raisonSociale }} </strong>, à l'adresse <strong> {{ partenaire.adresseSociale }} </strong>, NINEA <strong> {{ partenaire.ninea }} </strong> <br> Représenté par <strong> {{ partenaire.nomCompletPersonneRef }} </strong>
+            , CNI <strong>{{ partenaire.cniPersonneRef }} </strong>
+        </p>
+        <p>
+            Ci-après désigné « le Partenaire » D’autre part,
+        </p>
+        <p>Il a été arrêté et convenu ce qui suit :</p>
+        <h2>Article un - Nature de la mission</h2>
+        <p>
+            Le stratégie du client s’inscrit dans une dynamique d’offres de services du quotidien, simples, adaptées, rapides et sûres, et destinées au grand public, dans sa diversité de profils socio-économiques ou de lieux d’habitation.
+        </p>
+        <p>
+            Le cas échéant :
+        </p>
+        <p>
+            Dans le cadre de cette mission, le Prestataire s'engage à mettre ses collaborateurs à la disposition du Client si cela est nécessaire pour la bonne exécution de la mission. Cependant, lesdits salariés resteront sous l'autorité et sous la responsabilité
+                    du Prestataire pendant leur intervention chez le Client.
+        </p>
+        <h2>Article deux - Prix et modalités de paiement</h2>
+        <p>
+            Les commissions sont répartis comme suit :
+            <br>
+            Pour chaque transaction :
+            <br>
+            <ul>
+                <li>
+                    L’État prend les 30%
+                </li>
+                <li>
+                    Le système WARI : 40%
+                </li>
+            </ul>
+            Pour le client les 30% sont répartis comme suit :
+            <br>
+            <ul>
+                <li>
+                    retrait : 20%
+                </li>
+                <li>
+                    envoi : 10%
+                </li>
+            </ul>
+        </p>
+        <h2>Article trois - Obligations du Prestataire</h2>
+        <p>
+            Il est rappelé que le Prestataire est tenu à une obligation de moyens. Il doit donc exécuter sa mission conformément aux règles en vigueur dans sa profession et en se conformant à toutes les données acquises dans son domaine de compétence.
+        </p>
+        <p>
+            Il reconnaît que le Client lui a donné une information complète sur ses besoins et sur les impératifs à respecter.
+        </p>
+        Il s'engage à se conformer au règlement intérieur et aux consignes de sécurité applicables chez le Client. Enfin, il s’engage à observer la confidentialité la plus totale en ce qui concerne le contenu de la mission et toutes les informations ainsi que
+            tous les documents que le Client lui aura communiqués.
     </p>
     <h2>Article quatre - Obligations du Client</h2>
     <p>
@@ -230,7 +342,8 @@ class __TwigTemplate_200d2d92d2d9fa42236b72664fee2d2b1d36dfd2997392ad199ec96567a
     <p>
         La responsabilité du Prestataire ne pourra être mise en cause qu'en cas de manquement à son obligation de moyens. En outre, le Client ne pourra pas l'invoquer dans les cas suivants :
         <ul>
-            <li>s'il a omis de remettre au Prestataire un document ou une information nécessaire pour la mission, </li>
+            <li>s'il a omis de remettre au Prestataire un document ou une information nécessaire pour la mission,
+            </li>
             <li>en cas de force majeure ou d'autres causes indépendantes de la volonté du Prestataire.</li>
         </ul>
     </p>
@@ -239,16 +352,24 @@ class __TwigTemplate_200d2d92d2d9fa42236b72664fee2d2b1d36dfd2997392ad199ec96567a
         Le présent contrat est assujetti au droit français. Tout litige qui résulterait de son exécution sera soumis aux tribunaux dont dépend le siège social du Prestataire.
     </p>
     <p>
-        Fait le [date] en deux exemplaires à [ville]
+        Fait le {{ \"now\"|date(\"m/d/Y\") }} en deux exemplaires à <strong>Dakar</strong>
     </p>
     <div class=\"row\">
         <div class=\"col-6\">
-            Le Prestataire <br> [nom du signataire] <br> [signature]
+            Le Prestataire
+            <br>
+            <strong>Kabirou MBOW</strong>
+            <br>
+            [signature]
         </div>
-        <div class=\"col-6\">
-            Le Client <br> [nom du signataire] <br> [signature]
+        <div class=\"col-6 droit\">
+            Le Partenaire
+            <br>
+            <strong>{{ partenaire.nomCompletPersonneRef }}</strong>
+            <br>
+            [signature]
         </div>
     </div>
-</div>", "partenaire/contrat.html.twig", "/var/www/html/API/newTransfert/templates/partenaire/contrat.html.twig");
+</div>{% endblock %}", "partenaire/contrat.html.twig", "/var/www/html/API/newTransfert/templates/partenaire/contrat.html.twig");
     }
 }

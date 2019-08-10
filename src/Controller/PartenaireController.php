@@ -96,8 +96,33 @@ class PartenaireController extends AbstractFOSRestController
             
             $entityManager->persist($user);
             $entityManager->flush();
+            // Configure Dompdf according to your needs
+            $pdfOptions = new Options();
+            $pdfOptions->set('defaultFont', 'Arial');
+        
+            // Instantiate Dompdf with our options
+            $dompdf = new Dompdf($pdfOptions);
+        
+            // Retrieve the HTML generated in our twig file
+            $html = $this->renderView('partenaire/contrat.html.twig', [
+                'partenaire' => $partenaire
+            ]);
+        
+            // Load HTML to Dompdf
+            $dompdf->loadHtml($html);
+        
+            // (Optional) Setup the paper size and orientation 'portrait' or 'portrait'
+            $dompdf->setPaper('A4', 'portrait');
 
-            return $this->handleView($this->view(['status'=>'ok'],Response::HTTP_CREATED));
+            // Render the HTML as PDF
+            $dompdf->render();
+
+            // Output the generated PDF to Browser (inline view)
+            $dompdf->stream("contrat.pdf", [
+                "Attachment" => true
+            ]);
+
+            /*return $this->handleView($this->view(['status'=>'ok'],Response::HTTP_CREATED));*/
         }
 
         return $this->handleView($this->view($form->getErrors()));
