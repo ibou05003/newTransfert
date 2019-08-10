@@ -37,6 +37,7 @@ return $getExpiry ? PHP_INT_MAX : Hydrator::hydrate(
                     'typePieceBenef',
                     'cniEnv',
                     'userRet',
+                    'typeRetrait',
                 ],
             ],
         ],

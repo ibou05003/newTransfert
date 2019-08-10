@@ -90,6 +90,12 @@ class Transaction
 
     /**
      * @ORM\Column(type="bigint", nullable=true)
+     * @Assert\Range(
+     *      min = 1000000000000,
+     *      max = 2999299999999,
+     *      minMessage = "numero de piece non valide",
+     *      maxMessage = "numero de piece non valide"
+     * )
      */
     private $cniBenef;
 
@@ -147,6 +153,12 @@ class Transaction
 
     /**
      * @ORM\Column(type="bigint")
+     * @Assert\Range(
+     *      min = 1000000000000,
+     *      max = 2999299999999,
+     *      minMessage = "numero de piece non valide",
+     *      maxMessage = "numero de piece non valide"
+     * )
      */
     private $cniEnv;
 
@@ -154,6 +166,9 @@ class Transaction
      * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="transactionss")
      */
     private $userRet;
+
+
+    private $typeRetrait;
 
     public function getId(): ?int
     {
@@ -458,6 +473,18 @@ class Transaction
     public function setUserRet(?User $userRet): self
     {
         $this->userRet = $userRet;
+
+        return $this;
+    }
+
+    public function getTypeRetrait(): ?string
+    {
+        return $this->typeRetrait;
+    }
+
+    public function setTypeRetrait(string $typeRetrait): self
+    {
+        $this->typeRetrait = $typeRetrait;
 
         return $this;
     }

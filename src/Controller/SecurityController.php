@@ -87,6 +87,7 @@ class SecurityController extends AbstractFOSRestController
             }
             $user->setNombreConnexion(0);
             $user->setStatus($this->status);
+            $user->setCreatedAt(new \Datetime());
 
             $file=$request->files->all()['imageFile'];
             if (! in_array($file->getMimeType(), array('image/jpeg','image/jpg','image/png'))){
@@ -94,6 +95,7 @@ class SecurityController extends AbstractFOSRestController
             }
             
             $user->setImageFile($file);
+            $user->setUser($connecte);
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($user);
             $entityManager->flush();

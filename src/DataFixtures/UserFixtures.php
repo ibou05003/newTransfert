@@ -29,6 +29,7 @@ class UserFixtures extends Fixture
         $user->setCni(175519930017);
         $user->setAdresse('Fadia');
         $user->setTelephone(778083808);
+        $user->setCreatedAt(new \Datetime());
         $manager->persist($user);
         $manager->flush();
     }
