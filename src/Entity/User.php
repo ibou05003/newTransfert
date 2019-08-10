@@ -113,11 +113,26 @@ class User implements UserInterface
      * @ORM\Column(type="integer")
      */
     private $telephone;
+    /**
+     * @Assert\Range(
+     *      min = 1,
+     *      max = 4,
+     *      minMessage = "You must be at least {{ limit }}cm tall to enter",
+     *      maxMessage = "You cannot be taller than {{ limit }}cm to enter"
+     * )
+     */
+    private $role;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Transaction", mappedBy="user")
+     */
+    private $transactions;
 
     public function __construct()
     {
         $this->updatedAt=new \Datetime();
         $this->versements = new ArrayCollection();
+        $this->transactions = new ArrayCollection();
     }
     public function getId(): ?int
     {
@@ -387,6 +402,49 @@ class User implements UserInterface
     public function setTelephone(int $telephone): self
     {
         $this->telephone = $telephone;
+
+        return $this;
+    }
+
+    public function getRole(): ?int
+    {
+        return $this->role;
+    }
+
+    public function setRole(?int $role): self
+    {
+        $this->role = $role;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Transaction[]
+     */
+    public function getTransactions(): Collection
+    {
+        return $this->transactions;
+    }
+
+    public function addTransaction(Transaction $transaction): self
+    {
+        if (!$this->transactions->contains($transaction)) {
+            $this->transactions[] = $transaction;
+            $transaction->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeTransaction(Transaction $transaction): self
+    {
+        if ($this->transactions->contains($transaction)) {
+            $this->transactions->removeElement($transaction);
+            // set the owning side to null (unless already changed)
+            if ($transaction->getUser() === $this) {
+                $transaction->setUser(null);
+            }
+        }
 
         return $this;
     }

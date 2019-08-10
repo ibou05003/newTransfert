@@ -1,0 +1,404 @@
+<?php
+
+namespace App\Entity;
+
+use ApiPlatform\Core\Annotation\ApiResource;
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * @ApiResource()
+ * @ORM\Entity(repositoryClass="App\Repository\TransactionRepository")
+ */
+class Transaction
+{
+    /**
+     * @ORM\Id()
+     * @ORM\GeneratedValue()
+     * @ORM\Column(type="integer")
+     */
+    private $id;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $code;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $prenomEnv;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $nomEnv;
+
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $telEnv;
+
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $montant;
+
+    /**
+     * @ORM\Column(type="bigint")
+     */
+    private $adresseEnv;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $typePieceEnv;
+
+    /**
+     * @ORM\Column(type="datetime")
+     */
+    private $dateEnv;
+
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $nomBenef;
+
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $telBenef;
+
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    private $dateRet;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $prenomBenef;
+
+    /**
+     * @ORM\Column(type="bigint", nullable=true)
+     */
+    private $cniBenef;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $status;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="transactions")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $user;
+
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $taxe;
+
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $commissionPropre;
+
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $commissionEnv;
+
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $commissionRet;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Compte", inversedBy="transactions")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $compteEnv;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Compte", inversedBy="transactions")
+     */
+    private $compteRet;
+
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $frais;
+
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
+
+    public function getCode(): ?string
+    {
+        return $this->code;
+    }
+
+    public function setCode(string $code): self
+    {
+        $this->code = $code;
+
+        return $this;
+    }
+
+    public function getPrenomEnv(): ?string
+    {
+        return $this->prenomEnv;
+    }
+
+    public function setPrenomEnv(string $prenomEnv): self
+    {
+        $this->prenomEnv = $prenomEnv;
+
+        return $this;
+    }
+
+    public function getNomEnv(): ?string
+    {
+        return $this->nomEnv;
+    }
+
+    public function setNomEnv(string $nomEnv): self
+    {
+        $this->nomEnv = $nomEnv;
+
+        return $this;
+    }
+
+    public function getTelEnv(): ?int
+    {
+        return $this->telEnv;
+    }
+
+    public function setTelEnv(int $telEnv): self
+    {
+        $this->telEnv = $telEnv;
+
+        return $this;
+    }
+
+    public function getMontant(): ?int
+    {
+        return $this->montant;
+    }
+
+    public function setMontant(int $montant): self
+    {
+        $this->montant = $montant;
+
+        return $this;
+    }
+
+    public function getAdresseEnv(): ?int
+    {
+        return $this->adresseEnv;
+    }
+
+    public function setAdresseEnv(int $adresseEnv): self
+    {
+        $this->adresseEnv = $adresseEnv;
+
+        return $this;
+    }
+
+    public function getTypePieceEnv(): ?string
+    {
+        return $this->typePieceEnv;
+    }
+
+    public function setTypePieceEnv(string $typePieceEnv): self
+    {
+        $this->typePieceEnv = $typePieceEnv;
+
+        return $this;
+    }
+
+    public function getDateEnv(): ?\DateTimeInterface
+    {
+        return $this->dateEnv;
+    }
+
+    public function setDateEnv(\DateTimeInterface $dateEnv): self
+    {
+        $this->dateEnv = $dateEnv;
+
+        return $this;
+    }
+
+   
+
+    public function getNomBenef(): ?string
+    {
+        return $this->nomBenef;
+    }
+
+    public function setNomBenef(string $nomBenef): self
+    {
+        $this->nomBenef = $nomBenef;
+
+        return $this;
+    }
+
+    public function getTelBenef(): ?int
+    {
+        return $this->telBenef;
+    }
+
+    public function setTelBenef(int $telBenef): self
+    {
+        $this->telBenef = $telBenef;
+
+        return $this;
+    }
+
+    public function getDateRet(): ?\DateTimeInterface
+    {
+        return $this->dateRet;
+    }
+
+    public function setDateRet(?\DateTimeInterface $dateRet): self
+    {
+        $this->dateRet = $dateRet;
+
+        return $this;
+    }
+
+    public function getPrenomBenef(): ?string
+    {
+        return $this->prenomBenef;
+    }
+
+    public function setPrenomBenef(string $prenomBenef): self
+    {
+        $this->prenomBenef = $prenomBenef;
+
+        return $this;
+    }
+
+    public function getCniBenef(): ?int
+    {
+        return $this->cniBenef;
+    }
+
+    public function setCniBenef(?int $cniBenef): self
+    {
+        $this->cniBenef = $cniBenef;
+
+        return $this;
+    }
+
+    public function getStatus(): ?string
+    {
+        return $this->status;
+    }
+
+    public function setStatus(string $status): self
+    {
+        $this->status = $status;
+
+        return $this;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): self
+    {
+        $this->user = $user;
+
+        return $this;
+    }
+
+    public function getTaxe(): ?int
+    {
+        return $this->taxe;
+    }
+
+    public function setTaxe(int $taxe): self
+    {
+        $this->taxe = $taxe;
+
+        return $this;
+    }
+
+    public function getCommissionPropre(): ?int
+    {
+        return $this->commissionPropre;
+    }
+
+    public function setCommissionPropre(int $commissionPropre): self
+    {
+        $this->commissionPropre = $commissionPropre;
+
+        return $this;
+    }
+
+    public function getCommissionEnv(): ?int
+    {
+        return $this->commissionEnv;
+    }
+
+    public function setCommissionEnv(int $commissionEnv): self
+    {
+        $this->commissionEnv = $commissionEnv;
+
+        return $this;
+    }
+
+    public function getCommissionRet(): ?int
+    {
+        return $this->commissionRet;
+    }
+
+    public function setCommissionRet(int $commissionRet): self
+    {
+        $this->commissionRet = $commissionRet;
+
+        return $this;
+    }
+
+    public function getCompteEnv(): ?Compte
+    {
+        return $this->compteEnv;
+    }
+
+    public function setCompteEnv(?Compte $compteEnv): self
+    {
+        $this->compteEnv = $compteEnv;
+
+        return $this;
+    }
+
+    public function getCompteRet(): ?Compte
+    {
+        return $this->compteRet;
+    }
+
+    public function setCompteRet(?Compte $compteRet): self
+    {
+        $this->compteRet = $compteRet;
+
+        return $this;
+    }
+
+    public function getFrais(): ?int
+    {
+        return $this->frais;
+    }
+
+    public function setFrais(int $frais): self
+    {
+        $this->frais = $frais;
+
+        return $this;
+    }
+}

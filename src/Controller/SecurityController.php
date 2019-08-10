@@ -67,9 +67,23 @@ class SecurityController extends AbstractFOSRestController
                 )
             );
             
-            if($connecte->getRoles()[0]=='ROLE_SuperAdminPartenaire'){
+            if($connecte->getRoles()[0]=='ROLE_SuperAdminPartenaire' || $connecte->getRoles()[0]=='ROLE_AdminPartenaire'){
+                if($user->getRole()==3){
+                    $user->setRoles(['ROLE_AdminPartenaire']);
+                }elseif($user->getRole()==4){
+                    $user->setRoles(['ROLE_USER']);
+                }else{
+                    return $this->handleView($this->view([$this->message=>'Vous ne pouvez choisir que les roles Admin (3) et User (4)'],Response::HTTP_UNAUTHORIZED));
+                }
                 $user->setPartenaire($connecte->getPartenaire());
-                $user->setCompte($connecte->getCompte());
+            }elseif($connecte->getRoles()[0]=='ROLE_SuperAdminWari' || $connecte->getRoles()[0]=='ROLE_AdminWari'){
+                if($user->getRole()==1){
+                    $user->setRoles(['ROLE_AdminWari']);
+                }elseif($user->getRole()==2){
+                    $user->setRoles(['ROLE_Caissier']);
+                }else{
+                    return $this->handleView($this->view([$this->message=>'Vous ne pouvez choisir que les roles Admin (1) et Caissier (2)'],Response::HTTP_UNAUTHORIZED));
+                }
             }
             $user->setNombreConnexion(0);
             $user->setStatus($this->status);
@@ -85,7 +99,8 @@ class SecurityController extends AbstractFOSRestController
             $entityManager->flush();
 
             return $this->handleView($this->view([$this->message=>'ok'],Response::HTTP_CREATED));
-       // }
+        // }
+        // return $this->handleView($this->view($form->getErrors()));
     }
 
     /**

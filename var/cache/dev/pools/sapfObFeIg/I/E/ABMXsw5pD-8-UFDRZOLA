@@ -1,0 +1,35 @@
+<?php
+
+namespace Symfony\Component\VarExporter\Internal;
+
+return $getExpiry ? PHP_INT_MAX : Hydrator::hydrate(
+    $o = [
+        clone (Registry::$prototypes['Symfony\\Component\\Validator\\Constraints\\Range'] ?? Registry::p('Symfony\\Component\\Validator\\Constraints\\Range')),
+    ],
+    null,
+    [
+        'stdClass' => [
+            'minMessage' => [
+                'You must be at least {{ limit }}cm tall to enter',
+            ],
+            'maxMessage' => [
+                'You cannot be taller than {{ limit }}cm to enter',
+            ],
+            'min' => [
+                1,
+            ],
+            'max' => [
+                4,
+            ],
+            'groups' => [
+                [
+                    'Default',
+                ],
+            ],
+        ],
+    ],
+    [
+        $o[0],
+    ],
+    []
+);

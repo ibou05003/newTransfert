@@ -29,23 +29,19 @@ class UserType extends AbstractType
     {
         // grab the user, do a quick sanity check that one exists
         $user = $this->security->getUser();
-        if($user->getRoles()[0]=='ROLE_SuperAdminWari'){
-            $builder->add('roles',ChoiceType::class, [
+        if($user->getRoles()[0]=='ROLE_SuperAdminWari' || $user->getRoles()[0]=='ROLE_AdminWari'){
+            $builder->add('role',ChoiceType::class, [
                 'choices'  => [
-                    'Administrateur' => ['ROLE_AdminWari'],
-                    'Caissier' => ['ROLE_Caissier']
-                ],
-                'expanded'  => false, // liste déroulante
-                'multiple'  => true,
+                    'Administrateur' => 1,
+                    'Caissier' => 2
+                ]
             ]);
         }else{
-            $builder->add('roles',ChoiceType::class, [
+            $builder->add('role',ChoiceType::class, [
                 'choices'  => [
-                    'Administrateur' => ['ROLE_Admin'],
-                    'Utilisateur' => ['ROLE_USER']
-                ],
-                'expanded'  => false, // liste déroulante
-                'multiple'  => true,
+                    'Administrateur' => 3,
+                    'Utilisateur' => 4
+                ]
             ]);
         }
         $builder
@@ -68,6 +64,14 @@ class UserType extends AbstractType
             ->add('cni')
             ->add('telephone')
             ->add('adresse')
+            // ->add('role',ChoiceType::class, [
+            //     'choices'  => [
+            //         'Administrateur' => 1,
+            //         'Caissier' => 2,
+            //         'Administrateur Partenaire' => 3,
+            //         'Utilisateur' => 4
+            //     ]
+            // ])
         ;
         
        

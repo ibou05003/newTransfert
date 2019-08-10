@@ -1,0 +1,43 @@
+<?php
+
+namespace Symfony\Component\VarExporter\Internal;
+
+return $getExpiry ? PHP_INT_MAX : Hydrator::hydrate(
+    $o = [
+        clone (Registry::$prototypes['ApiPlatform\\Core\\Metadata\\Property\\PropertyNameCollection'] ?? Registry::p('ApiPlatform\\Core\\Metadata\\Property\\PropertyNameCollection')),
+    ],
+    null,
+    [
+        'ApiPlatform\\Core\\Metadata\\Property\\PropertyNameCollection' => [
+            'properties' => [
+                [
+                    'id',
+                    'code',
+                    'prenomEnv',
+                    'nomEnv',
+                    'telEnv',
+                    'montant',
+                    'adresseEnv',
+                    'typePieceEnv',
+                    'dateEnv',
+                    'nomBenef',
+                    'telBenef',
+                    'dateRet',
+                    'prenomBenef',
+                    'cniBenef',
+                    'status',
+                    'user',
+                    'taxe',
+                    'commissionPropre',
+                    'commissionEnv',
+                    'commissionRet',
+                    'compteEnv',
+                    'compteRet',
+                    'frais',
+                ],
+            ],
+        ],
+    ],
+    $o[0],
+    []
+);
